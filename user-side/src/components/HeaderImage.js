@@ -16,7 +16,19 @@ function HeaderImage() {
           }
         }
       >
-        <h1 className="text-white">NICKET</h1>
+        <h1
+          style={{
+            color: "white",
+            border: 0,
+            marginBottom: "1%",
+            borderRadius: "0.3rem",
+            padding: "0.5%",
+            backgroundColor: "rgba(167, 171, 175, 0.48)",
+            width: "10rem",
+          }}
+        >
+          NICKET
+        </h1>
       </div>
     </div>
   );

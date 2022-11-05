@@ -2,7 +2,7 @@ import Card from "react-bootstrap/Card";
 import * as Icon from "react-bootstrap-icons";
 import "../custom.css";
 
-function ArticleCard() {
+function NewsCard() {
   return (
     <div className="col-4 mx-auto">
       <Card className="bg-dark text-white shadow-lg card-zoom">
@@ -12,6 +12,7 @@ function ArticleCard() {
         />
         <Card.ImgOverlay>
           <div
+            className="row"
             style={{
               position: "absolute",
               bottom: 8,
@@ -19,11 +20,19 @@ function ArticleCard() {
           >
             <Card.Title>Card title</Card.Title>
             <Card.Text>This is a wider card with supporting text.</Card.Text>
-            <div>
+            <div className="col-8">
               <Card.Text>
                 <Icon.ClockFill />
-                &nbsp; Last updated 3 mins ago
+                &nbsp; 11 November 2022
               </Card.Text>
+            </div>
+            <div
+              className="col-4"
+              style={{
+                textAlign: "center",
+              }}
+            >
+              <button className="btn btn-secondary">Read</button>
             </div>
           </div>
         </Card.ImgOverlay>
@@ -32,4 +41,4 @@ function ArticleCard() {
   );
 }
 
-export default ArticleCard;
+export default NewsCard;

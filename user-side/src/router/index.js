@@ -1,19 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../pages/Layout";
 import Home from "../pages/Home";
-import DetailArticle from "../pages/DetailArticle";
+import DetailNews from "../pages/DetailNews";
+import ListNews from "../pages/ListNews";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
   {
     element: <Layout />,
     children: [
       {
-        path: "/detail-article",
-        element: <DetailArticle />,
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/news",
+        element: <ListNews />,
+      },
+      {
+        path: "/detail-news/:id",
+        element: <DetailNews />,
       },
     ],
   },
