@@ -43,7 +43,12 @@ function NavBar() {
                 >
                   News
                 </Nav.Link>
-                <Nav.Link href="#pricing">Ticket</Nav.Link>
+                <Nav.Link
+                  className={splitLocation[1] === "ticket" ? "active" : ""}
+                  onClick={() => navigate("/ticket")}
+                >
+                  Ticket
+                </Nav.Link>
               </Nav>
               <Nav>
                 <Nav.Link href="#deets">More deets</Nav.Link>

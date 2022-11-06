@@ -3,6 +3,9 @@ import Layout from "../pages/Layout";
 import Home from "../pages/Home";
 import DetailNews from "../pages/DetailNews";
 import ListNews from "../pages/ListNews";
+import Ticket from "../pages/Ticket";
+import RegulerSeatTicket from "../pages/RegulerSeatTicket";
+import VipSeatTicket from "../pages/VipSeatTicket";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,18 @@ const router = createBrowserRouter([
       {
         path: "/detail-news/:id",
         element: <DetailNews />,
+      },
+      {
+        path: "/ticket",
+        element: <Ticket />,
+      },
+      {
+        path: "/seat",
+        element: <RegulerSeatTicket />,
+      },
+      {
+        path: "/seat-vip",
+        element: <VipSeatTicket />,
       },
     ],
   },
