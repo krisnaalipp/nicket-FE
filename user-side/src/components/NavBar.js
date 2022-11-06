@@ -44,6 +44,12 @@ function NavBar() {
                   News
                 </Nav.Link>
                 <Nav.Link
+                  className={splitLocation[1] === "match" ? "active" : ""}
+                  onClick={() => navigate("/match")}
+                >
+                  Match
+                </Nav.Link>
+                <Nav.Link
                   className={splitLocation[1] === "ticket" ? "active" : ""}
                   onClick={() => navigate("/ticket")}
                 >

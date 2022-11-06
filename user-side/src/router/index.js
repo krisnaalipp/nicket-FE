@@ -6,6 +6,7 @@ import ListNews from "../pages/ListNews";
 import Ticket from "../pages/Ticket";
 import RegulerSeatTicket from "../pages/RegulerSeatTicket";
 import VipSeatTicket from "../pages/VipSeatTicket";
+import Match from "../pages/Match";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/news",
         element: <ListNews />,
+      },
+      {
+        path: "/match",
+        element: <Match />,
       },
       {
         path: "/detail-news/:id",
