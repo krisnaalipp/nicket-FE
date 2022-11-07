@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_NEWS } from "../config/queries";
 import FadeLoader from "react-spinners/FadeLoader";
+import AddNews from "../components/AddNews";
 
 export default function NewsPage() {
   const { data, loading } = useQuery(GET_NEWS);
@@ -21,11 +22,7 @@ export default function NewsPage() {
         >
           <RiMenuAddLine size={40} />
         </Button>
-        <OffcanvasFormNewsEdit
-          show={show}
-          placement={"end"}
-          onHide={() => setShow(false)}
-        />
+        <AddNews show={show} placement={"end"} onHide={() => setShow(false)} />
       </div>
       <Container>
         {loading ? (

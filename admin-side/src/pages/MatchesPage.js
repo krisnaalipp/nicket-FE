@@ -1,21 +1,28 @@
 import { Container, Card, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import AddMatch from "../components/AddMatch";
+
 export default function Matches() {
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
   return (
     <Container className="m-4">
       <Card
         style={{
           borderRadius: 10,
           padding: 1,
-          width: "85rem",
+          width: "100%",
         }}
       >
         <h2 className="d-flex justify-content-center mt-3">
           Matches and Fixtures
         </h2>
         <div className="d-flex justify-content-center">
-          <Button className="btn-success m-4 p-3">
+          <Button className="btn-success m-4 p-3" onClick={handleShow}>
             <b>ADD NEW MATCHES</b>
           </Button>
+          <AddMatch show={show} setShow={setShow} />
         </div>
         <div className="row p-3 m-3">
           <div className="mb-3">

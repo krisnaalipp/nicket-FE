@@ -36,9 +36,7 @@ export default function SideBar() {
           </Menu>
         </div>
       </Sidebar>
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
     </div>
   );
 }
