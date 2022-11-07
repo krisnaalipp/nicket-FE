@@ -15,19 +15,19 @@ export default function NewsPage() {
     <div className="m-5">
       <div className="mb-5 d-flex justify-content-between">
         <h2> N E W S </h2>
-        <Button
-          style={{ backgroundColor: "#fb8500" }}
-          className="shadow-lg"
-          onClick={() => setShow(true)}
-        >
-          <RiMenuAddLine size={40} />
-        </Button>
         <AddNews
           show={show}
           setShow={setShow}
           placement={"end"}
           onHide={() => setShow(false)}
         />
+        <Button
+          style={{ backgroundColor: "darkblue" }}
+          className="shadow-lg"
+          onClick={() => setShow(true)}
+        >
+          <RiMenuAddLine size={40} />
+        </Button>
       </div>
       <Container>
         {loading ? (

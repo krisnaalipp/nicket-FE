@@ -15,3 +15,19 @@ export const ADD_NEWS = gql`
     }
   }
 `;
+
+export const LOGIN_ADMIN = gql`
+  mutation LoginAdmin($inputLogin: LoginInput) {
+    loginAdmin(inputLogin: $inputLogin) {
+      access_token
+    }
+  }
+`;
+
+export const REGISTER = gql`
+  mutation Mutation($inputAdmin: AdminInput) {
+    createAdmin(inputAdmin: $inputAdmin) {
+      message
+    }
+  }
+`;
