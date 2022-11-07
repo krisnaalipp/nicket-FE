@@ -13,8 +13,8 @@ export default function NewsPage() {
   const [show, setShow] = useState();
   return (
     <div className="m-5">
-      <div className="mb-5 d-flex justify-content-between">
-        <h2> N E W S </h2>
+      <div className="mb-5 d-flex justify-content-between px-5">
+        <h2> News</h2>
         <AddNews
           show={show}
           setShow={setShow}
@@ -29,17 +29,19 @@ export default function NewsPage() {
           <RiMenuAddLine size={40} />
         </Button>
       </div>
-      <Container>
-        {loading ? (
-          <FadeLoader />
-        ) : (
-          <div className="row">
-            {data.getNews?.map((el, i) => {
-              return <NewsCard news={el} key={i} />;
-            })}
-          </div>
-        )}
-      </Container>
+      <div className="">
+        <Container>
+          {loading ? (
+            <FadeLoader />
+          ) : (
+            <div className="row">
+              {data.getNews?.map((el, i) => {
+                return <NewsCard news={el} key={i} />;
+              })}
+            </div>
+          )}
+        </Container>
+      </div>
     </div>
   );
 }
