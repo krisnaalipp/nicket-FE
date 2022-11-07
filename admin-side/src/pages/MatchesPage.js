@@ -42,7 +42,10 @@ export default function Matches() {
                 <Card.Title className="text-center">
                   <h2> 4 - 0 </h2>
                 </Card.Title>
-                <Card.Text>12 - 09 - 2022</Card.Text>
+                <div className="d-flex justify-content-between">
+                  <Card.Text>12 - 09 - 2022</Card.Text>
+                  <Button variant="info">Edit Result</Button>
+                </div>
               </Card.Body>
             </Card>{" "}
             <Card bg="white" text={"dark"} className="shadow-lg mb-2">

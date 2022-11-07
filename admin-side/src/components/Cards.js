@@ -1,20 +1,24 @@
-import { useState } from "react";
+import { useMutation } from "@apollo/client";
 import { Card, Button } from "react-bootstrap";
-import { BsFillPencilFill, BsTrashFill } from "react-icons/bs";
+import { BsTrashFill } from "react-icons/bs";
+import FadeLoader from "react-spinners/FadeLoader";
 import "../assets/overlay.css";
-import OffcanvasFormNewsEdit from "./OffCanvasEditNewsForm";
+import { DELETE_NEWS } from "../config/mutations";
+import { GET_NEWS } from "../config/queries";
 
 export default function NewsCard({ news }) {
-  const [show, setShow] = useState();
+  const [deleteNews, { data, loading, error }] = useMutation(DELETE_NEWS, {
+    refetchQueries: [
+      { query: GET_NEWS }, // DocumentNode object parsed with gql
+    ],
+    onCompleted: (data) => {
+      console.log("berhasil delete news", data);
+    },
+  });
 
-  function editNews(id) {
-    console.log(id, "===== edit news");
-  }
+  // if (loading) return <FadeLoader />;
+  if (error) return <h1>Submission error! ${error.message}</h1>;
 
-  function deleteNews(e, id) {
-    e.preventDefault();
-    console.log(id, "=== news delete");
-  }
   return (
     <>
       <div className="col-4 mb-4 img">
@@ -29,16 +33,17 @@ export default function NewsCard({ news }) {
             style={{ width: "100%", height: "260px" }}
           />
           <div className="middle">
-            <div className="d-flex justify-content-around gap-5">
-              <Button variant="link" onClick={() => setShow(true)}>
-                <BsFillPencilFill color="blue" size={30} />
-              </Button>
-              <OffcanvasFormNewsEdit
-                show={show}
-                placement={"end"}
-                onHide={() => setShow(false)}
-              />
-              <Button onClick={(e) => deleteNews(e, news._id)}>
+            <div className="d-flex justify-content-center gap-5">
+              <Button
+                variant="link"
+                onClick={() =>
+                  deleteNews({
+                    variables: {
+                      deleteNewsId: news._id,
+                    },
+                  })
+                }
+              >
                 <BsTrashFill color="red" size={30} />
               </Button>
             </div>

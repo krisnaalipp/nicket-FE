@@ -8,15 +8,15 @@ export default function AddMatch({ show, setShow }) {
   const [data, setData] = useState({
     opponents: "",
     startDate: "",
-    availableSeats: 0,
+    availableSeats: "",
   });
 
   function handleInput(e) {
-    console.log(e.target.name, e.target.value, "===set data");
     setData({
       ...data,
       [e.target.name]: e.target.value,
     });
+    // console.log(setData, "=== set data");
   }
 
   function handleSubmit(e) {
@@ -28,7 +28,7 @@ export default function AddMatch({ show, setShow }) {
     <Modal show={show} onHide={handleClose}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Add Match</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group className="mb-3" controlId="opponentsname">
@@ -39,6 +39,16 @@ export default function AddMatch({ show, setShow }) {
               onChange={handleInput}
               type="text"
               placeholder="Team Name"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="opponentsname">
+            <Form.Label>Image Url</Form.Label>
+            <Form.Control
+              name="imgUrl"
+              value={data.imgUrl}
+              onChange={handleInput}
+              type="text"
+              placeholder="Team Logo"
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="startdate">

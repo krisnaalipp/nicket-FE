@@ -22,7 +22,12 @@ export default function NewsPage() {
         >
           <RiMenuAddLine size={40} />
         </Button>
-        <AddNews show={show} placement={"end"} onHide={() => setShow(false)} />
+        <AddNews
+          show={show}
+          setShow={setShow}
+          placement={"end"}
+          onHide={() => setShow(false)}
+        />
       </div>
       <Container>
         {loading ? (

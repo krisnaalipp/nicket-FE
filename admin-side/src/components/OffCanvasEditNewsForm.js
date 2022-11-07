@@ -13,13 +13,13 @@ export default function OffcanvasFormNewsEdit(props) {
       ...data,
       [e.target.name]: e.target.value,
     });
-
-    console.log(data, "====dari edit news");
+    console.log(e.target.name, e.target.value, "====dari edit news");
   }
 
   function submitHandler(e) {
     e.preventDefault();
     console.log("submit edit");
+    console.log(data, "====dari edit news");
   }
   return (
     <Offcanvas {...props}>
