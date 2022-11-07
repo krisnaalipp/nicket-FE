@@ -2,13 +2,18 @@ import HeaderImage from "../components/HeaderImage";
 import DescriptionCard from "../components/DescriptionCard";
 import NewsCard from "../components/NewsCard";
 import Card from "react-bootstrap/Card";
+import { useState } from "react";
 import { MdOutlineUpdate } from "react-icons/md";
+import HomeModal from "../components/HomeModal";
 
 function Home() {
+  const [show, setModalShow] = useState(true);
+
   return (
     <>
       <HeaderImage />
       <DescriptionCard />
+      <HomeModal show={show} onHide={() => setModalShow(false)} />
 
       <div className="container mt-5 mb-5">
         <Card

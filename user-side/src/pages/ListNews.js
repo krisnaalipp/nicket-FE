@@ -11,9 +11,6 @@ function ListNews() {
     return <h1>Error Data!</h1>;
   }
 
-  // console.log(data);
-  // const news = data.getNews
-
   return (
     <>
       <div

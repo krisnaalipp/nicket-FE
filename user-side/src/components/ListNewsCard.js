@@ -48,7 +48,7 @@ function ListNewsCard({ news }) {
                   >
                     <button
                       onClick={() => navigate(`/detail-news/${news._id}`)}
-                      className="btn btn-secondary"
+                      className="btn btn-secondary stretched-link"
                     >
                       Read
                     </button>

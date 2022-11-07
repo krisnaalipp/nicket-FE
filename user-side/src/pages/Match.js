@@ -1,8 +1,11 @@
 import { GiLaurelsTrophy } from "react-icons/gi";
 import { BsDot } from "react-icons/bs";
+import { useQuery } from "@apollo/client";
 import MatchCard from "../components/MatchCard";
+import { getMatches } from "../config/queries";
 
 function Match() {
+  const { loading, error, data } = useQuery(getMatches);
   return (
     <>
       <div
@@ -58,11 +61,15 @@ function Match() {
           marginBottom: "2%",
         }}
       >
-        <div className="row">
-          <MatchCard />
-          <MatchCard />
-          <MatchCard />
-        </div>
+        {loading ? (
+          <h2>Loading...</h2>
+        ) : (
+          <div className="row">
+            {data.getMatch.map((el) => {
+              return <MatchCard match={el} key={el.id} />;
+            })}
+          </div>
+        )}
       </div>
     </>
   );

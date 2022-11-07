@@ -1,5 +1,6 @@
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { HiOutlineTicket } from "react-icons/hi2";
 import { IoInformationCircleSharp } from "react-icons/io5";
@@ -7,6 +8,13 @@ import { useNavigate } from "react-router-dom";
 
 function Ticket() {
   const navigate = useNavigate();
+  const [category, setCategory] = useState("");
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setCategory(value);
+  };
+
   return (
     <>
       <div
@@ -57,25 +65,39 @@ function Ticket() {
               </div>
               <hr />
               <div style={{ textAlign: "center" }}>
-                <Form>
+                <Form onChange={handleChange} value={category} name="category">
                   <Form.Label>Select ticket category</Form.Label>
                   <Form.Select style={{ textAlign: "center" }}>
-                    <option value="" hidden>
-                      --- SELECT ONE ---
+                    <option selected disabled value="">
+                      SELECT CATEGORY
                     </option>
                     <option value="VIP">VIP</option>
-                    <option value="Reguler1">Reguler 1</option>
-                    <option value="Reguler2">Reguler 2</option>
-                    <option value="Reguler3">Reguler 3</option>
+                    <option value="Reguler 1">Reguler 1</option>
+                    <option value="Reguler 2">Reguler 2</option>
+                    <option value="Reguler 3">Reguler 3</option>
                   </Form.Select>
                   <br />
                   <Button onClick={() => navigate("/")} variant="secondary">
                     Cancel
                   </Button>
                   &nbsp;&nbsp;
-                  <Button variant="primary" type="submit">
-                    Next
-                  </Button>
+                  {category === "VIP" ? (
+                    <Button
+                      variant="primary"
+                      onClick={() =>
+                        navigate("/seat-vip", { state: { category } })
+                      }
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      onClick={() => navigate("/seat", { state: { category } })}
+                    >
+                      Next
+                    </Button>
+                  )}
                 </Form>
               </div>
             </Card>

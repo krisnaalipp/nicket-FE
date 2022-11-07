@@ -1,6 +1,6 @@
 import Card from "react-bootstrap/Card";
 
-function MatchCard() {
+function MatchCard({ match }) {
   return (
     <>
       <div className="col-10 mx-auto" style={{ marginBottom: "2rem" }}>
@@ -19,12 +19,12 @@ function MatchCard() {
             </div>
             <div className="col-2">
               <h6 className="card-title" style={{ textAlign: "center" }}>
-                Match Date
+                {match.startDate}
               </h6>
             </div>
             <div className="col-5">
               <h6 className="card-title" style={{ textAlign: "right" }}>
-                Name Stadium
+                Gelora Bung Karno
               </h6>
             </div>
           </div>
@@ -40,12 +40,12 @@ function MatchCard() {
                 src="https://cdn.discordapp.com/attachments/1035515386172543087/1038008127443968030/logo.png"
               />
               <h2 className="text-center" style={{ marginTop: "10%" }}>
-                Hacktiv8
+                Eagle F.C
               </h2>
             </div>
             <div className="col-2">
               <h1 className="text-center" style={{ marginTop: "21%" }}>
-                0 - 0
+                {match.result}
               </h1>
             </div>
             <div className="col-5">
@@ -57,10 +57,10 @@ function MatchCard() {
                   marginRight: "3%",
                 }}
                 className="img-fluid float-end"
-                src="https://resources.premierleague.com/premierleague/badges/70/t8.png"
+                src={match.opponentLogo}
               />
               <h2 className="text-center" style={{ marginTop: "10%" }}>
-                Chelsea
+                {match.opponent}
               </h2>
             </div>
           </div>
@@ -72,7 +72,11 @@ function MatchCard() {
                 textAlign: "center",
               }}
             >
-              <button className="btn btn-dark">Buy Ticket</button>
+              {match.result !== "Not Started" ? (
+                <h2>= Ended =</h2>
+              ) : (
+                <button className="btn btn-dark">Buy Ticket</button>
+              )}
             </div>
           </div>
         </Card>
