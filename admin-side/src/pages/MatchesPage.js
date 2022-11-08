@@ -1,51 +1,29 @@
 import { Container, Card, Button } from "react-bootstrap";
 import React, { useState } from "react";
 import AddMatch from "../components/AddMatch";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_MATCHES } from "../config/queries";
 import FadeLoader from "react-spinners/FadeLoader";
+import MatchesCard from "../components/MatchesCard";
+import { EDIT_RESULT } from "../config/mutations";
 
 export default function Matches() {
   const { data, loading } = useQuery(GET_MATCHES);
+  // [updateFn, result]
+  const [updateResult, { data: edit, loading: loadingEdit, error }] =
+    useMutation(EDIT_RESULT, {
+      refetchQueries: [
+        { query: GET_MATCHES }, // DocumentNode object parsed with gql
+      ],
+      onCompleted: (data) => {
+        console.log("berhasil edit result", data);
+      },
+    });
+  //modal add match
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
-
-  function showDate(date) {
-    return new Date(date).toLocaleString();
-  }
-
-  function calculateTime(date) {
-    return new Date(date).getTime();
-  }
-
-  function getLabel(date, seats) {
-    if (calculateTime(date) - calculateTime(new Date()) <= 0) {
-      return (
-        <h6
-          className="text-end m-2 p-2 text-white"
-          style={{
-            borderRadius: 10,
-            backgroundColor: "gray",
-          }}
-        >
-          ----- Ended -----
-        </h6>
-      );
-    } else {
-      return (
-        <h6
-          className="text-end m-2 p-2 text-white"
-          style={{
-            borderRadius: 10,
-            backgroundColor: "green",
-          }}
-        >
-          223/{seats} SOLD
-        </h6>
-      );
-    }
-  }
+  // modal edit result
 
   return (
     <Container className="m-4">
@@ -73,52 +51,13 @@ export default function Matches() {
                   <FadeLoader />
                 ) : (
                   <div className="row">
-                    {data.getMatch?.map((el, i) => {
+                    {data?.getMatch?.map((el, i) => {
                       return (
-                        <Card
-                          bg="white"
-                          text={"dark"}
-                          className="shadow-lg mb-2"
-                        >
-                          <div className="d-flex justify-content-end">
-                            {getLabel(el.startDate, el.availableSeats)}
-                            {/* {calculateTime(el.startDate) -
-                              calculateTime(new Date()) <=
-                            0 ? (
-                              <h6
-                                className="text-end m-2 p-2 text-white"
-                                style={{
-                                  borderRadius: 10,
-                                  backgroundColor: "gray",
-                                }}
-                              >
-                                ----- Ended -----
-                              </h6>
-                            ) : (
-                              <h6
-                                className="text-end m-2 p-2 text-white"
-                                style={{
-                                  borderRadius: 10,
-                                  backgroundColor: "green",
-                                }}
-                              >
-                                223/{el.availableSeats} SOLD
-                              </h6>
-                            )} */}
-                          </div>
-                          <h2 className="d-flex justify-content-center mt-2">
-                            Eagle F.C vs {el.opponent}
-                          </h2>
-                          <Card.Body>
-                            <Card.Title className="text-center">
-                              <h2>{el.result}</h2>
-                            </Card.Title>
-                            <div className="d-flex justify-content-between">
-                              <Card.Text>{showDate(el.startDate)}</Card.Text>
-                              <Button variant="info">Edit Result</Button>
-                            </div>
-                          </Card.Body>
-                        </Card>
+                        <MatchesCard
+                          updateResult={updateResult}
+                          data={el}
+                          key={i}
+                        />
                       );
                     })}
                   </div>

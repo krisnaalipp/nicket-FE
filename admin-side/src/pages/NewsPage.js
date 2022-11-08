@@ -35,7 +35,7 @@ export default function NewsPage() {
             <FadeLoader />
           ) : (
             <div className="row">
-              {data.getNews?.map((el, i) => {
+              {data?.getNews?.map((el, i) => {
                 return <NewsCard news={el} key={i} />;
               })}
             </div>

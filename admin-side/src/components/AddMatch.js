@@ -2,13 +2,16 @@ import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
+import { ADD_MATCH } from "../config/mutations";
+import { useMutation } from "@apollo/client";
+import { GET_MATCHES } from "../config/queries";
 
 export default function AddMatch({ show, setShow }) {
   const handleClose = () => setShow(false);
   const [data, setData] = useState({
-    opponents: "",
+    opponent: "",
+    opponentLogo: "",
     startDate: "",
-    availableSeats: "",
   });
 
   function handleInput(e) {
@@ -16,17 +19,39 @@ export default function AddMatch({ show, setShow }) {
       ...data,
       [e.target.name]: e.target.value,
     });
-    // console.log(setData, "=== set data");
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(data, "==== data");
-  }
+  const [handleSubmit, { data: dataAdd, loading: addLoading, error }] =
+    useMutation(ADD_MATCH, {
+      refetchQueries: [
+        { query: GET_MATCHES }, // DocumentNode object parsed with gql
+      ],
+      onCompleted: (data) => {
+        console.log("berhasil add matches", data);
+      },
+    });
+  console.log(data, "=== set data");
 
   return (
     <Modal show={show} onHide={handleClose}>
-      <Form onSubmit={handleSubmit}>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (data.opponent && data.opponentLogo && data.startDate) {
+            console.log(data, "====data dari handle submit");
+            handleSubmit({
+              variables: {
+                inputMatch: data,
+              },
+            });
+          }
+          setData({
+            opponent: "",
+            opponentLogo: "",
+            startDate: "",
+          });
+        }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add Match</Modal.Title>
         </Modal.Header>
@@ -34,18 +59,18 @@ export default function AddMatch({ show, setShow }) {
           <Form.Group className="mb-3" controlId="opponentsname">
             <Form.Label>Opponents</Form.Label>
             <Form.Control
-              name="opponents"
-              value={data.opponents}
+              name="opponent"
+              value={data.opponent}
               onChange={handleInput}
               type="text"
               placeholder="Team Name"
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="opponentsname">
-            <Form.Label>Image Url</Form.Label>
+            <Form.Label>Opponent Logo</Form.Label>
             <Form.Control
-              name="imgUrl"
-              value={data.imgUrl}
+              name="opponentLogo"
+              value={data.opponentLogo}
               onChange={handleInput}
               type="text"
               placeholder="Team Logo"
@@ -59,16 +84,6 @@ export default function AddMatch({ show, setShow }) {
               onChange={handleInput}
               type="date"
               placeholder="Start Date"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="availableseat">
-            <Form.Label>Available Seats</Form.Label>
-            <Form.Control
-              name="availableSeats"
-              value={data.availableSeats}
-              onChange={handleInput}
-              type="number"
-              placeholder="Available Seats"
             />
           </Form.Group>
         </Modal.Body>

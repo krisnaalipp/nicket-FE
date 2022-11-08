@@ -31,3 +31,19 @@ export const REGISTER = gql`
     }
   }
 `;
+
+export const EDIT_RESULT = gql`
+  mutation Mutation($updateResultId: ID, $inputResult: InputResult) {
+    updateResult(id: $updateResultId, inputResult: $inputResult) {
+      message
+    }
+  }
+`;
+
+export const ADD_MATCH = gql`
+  mutation Mutation($inputMatch: InputMatch) {
+    createMatch(inputMatch: $inputMatch) {
+      message
+    }
+  }
+`;
