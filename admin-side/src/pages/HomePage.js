@@ -2,13 +2,13 @@ import { Card, Container } from "react-bootstrap";
 export default function HomePage() {
   return (
     <Container className="p-1 m-5">
-      <div>
+      <div style={{ width: "100%" }}>
         <div className="row m-3 ">
           <div className="col-6">
             <Card
               bg="dark"
               text={"white"}
-              style={{ width: "39rem" }}
+              style={{ width: "100%" }}
               className="mb-2 "
             >
               <Card.Header className="d-flex justify-content-center">
@@ -24,7 +24,7 @@ export default function HomePage() {
             <Card
               bg="dark"
               text={"white"}
-              style={{ width: "40rem" }}
+              style={{ width: "100%" }}
               className="mb-2"
             >
               <Card.Header className="d-flex justify-content-center">
