@@ -7,6 +7,7 @@ import { IoInformationCircleSharp } from "react-icons/io5";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { getMatchId } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function Ticket() {
   const navigate = useNavigate();
@@ -39,7 +40,18 @@ function Ticket() {
         }}
       ></div>
       {loading ? (
-        <h2>Loading...</h2>
+        <div className="row">
+          <div
+            className="col-1 mx-auto"
+            style={{
+              textAlign: "center",
+              maxWidth: "6%",
+              marginBottom: "100%",
+            }}
+          >
+            <FadeLoader color="#36d7b7" />
+          </div>
+        </div>
       ) : (
         <div
           className="container"
@@ -49,7 +61,7 @@ function Ticket() {
           }}
         >
           <div className="row">
-            <div className="col-8 mx-auto">
+            <div className="col-6 mx-auto">
               <Card
                 body
                 className="shadow-lg"
@@ -101,7 +113,7 @@ function Ticket() {
                     &nbsp;&nbsp;
                     {category === "VIP" ? (
                       <Button
-                        variant="primary"
+                        variant="dark"
                         onClick={() =>
                           navigate("/seat-vip/" + matchId, {
                             state: { category },
@@ -112,7 +124,7 @@ function Ticket() {
                       </Button>
                     ) : (
                       <Button
-                        variant="primary"
+                        variant="dark"
                         onClick={() =>
                           navigate("/seat/" + matchId, { state: { category } })
                         }
@@ -124,7 +136,7 @@ function Ticket() {
                 </div>
               </Card>
             </div>
-            <div className="col-4 mx-auto">
+            <div className="col-6 mx-auto">
               <Card
                 body
                 className="shadow-lg"
@@ -146,27 +158,51 @@ function Ticket() {
                         marginBottom: "0.5%",
                       }}
                     />
-                    Information
+                    Terms and Conditions
                   </h4>
                 </div>
                 <hr />
-                <p
+
+                <ol
                   style={{
-                    textAlign: "justify",
+                    listStyle: "decimal",
+                    padding: "1.5rem",
                   }}
                 >
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Eveniet facilis aliquid voluptas esse fugiat blanditiis, ab
-                  nisi, amet tempora exercitationem repellat non. Modi eaque at,
-                  cumque voluptas voluptatum ea nobis. Lorem ipsum, dolor sit
-                  amet consectetur adipisicing elit. Eveniet facilis aliquid
-                  voluptas esse fugiat blanditiis, ab nisi, amet tempora
-                  exercitationem repellat non. Modi eaque at, cumque voluptas
-                  voluptatum ea nobis. Lorem ipsum, dolor sit amet consectetur
-                  adipisicing elit. Eveniet facilis aliquid voluptas esse fugiat
-                  blanditiis, ab nisi, amet tempora exercitationem repellat non.
-                  Modi eaque at, cumque voluptas voluptatum ea nobis.
-                </p>
+                  <li>Tickets are only available for certain matches</li>
+                  <li>
+                    One e-ticket is valid for one person and for one match
+                  </li>
+                  <li>
+                    This e-ticket is valid as an entry ticket and cannot be
+                    represented
+                  </li>
+                  <li>Must bring and show original identity card (KTP)</li>
+                  <li>
+                    Tickets that have been purchased cannot be exchanged or
+                    refunded
+                  </li>
+                  <li>
+                    It is forbidden to bring weapons/drugs into the competition
+                    area
+                  </li>
+                  <li>
+                    It is forbidden to bring sharp weapons, firecrackers,
+                    fireworks and flares and any items that threaten the
+                    continuity of the match
+                  </li>
+                  <li>
+                    Counterfeiting e-tickets is illegal and will be dealt with
+                    legally
+                  </li>
+                  <li>
+                    Please be careful of any fraud in the name of Eagle F.C
+                  </li>
+                  <li>
+                    Eagle F.C reserves the right to change the terms and
+                    conditions without prior notice
+                  </li>
+                </ol>
               </Card>
             </div>
           </div>

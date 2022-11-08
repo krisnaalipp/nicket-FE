@@ -65,7 +65,7 @@ export default function ModalPayment(props) {
   return (
     <Modal
       {...props}
-      size="lg"
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -75,14 +75,25 @@ export default function ModalPayment(props) {
         <>
           <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
-              ini countdown
+              <div
+                className="row"
+                style={{
+                  textAlign: "center",
+
+                  width: "30.5rem",
+                }}
+              >
+                <div className="col-6 mx-auto" style={{ marginTop: "0.5rem" }}>
+                  <h4>Ticket Detail</h4>
+                </div>
+              </div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>Ticket Detail</h4>
             <p>KTP : {data?.getTransactionDetail?.ktp}</p>
             <p>Email : {data?.getTransactionDetail?.email}</p>
             <p>Category : {data?.getTransactionDetail?.categorySeat}</p>
+
             <p>
               Total Price : {data?.getTransactionDetail?.Seats?.length * 150000}
             </p>

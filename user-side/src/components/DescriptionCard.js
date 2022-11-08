@@ -85,17 +85,16 @@ function DescriptionCard() {
                 textAlign: "justify",
               }}
             >
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet
-              facilis aliquid voluptas esse fugiat blanditiis, ab nisi, amet
-              tempora exercitationem repellat non. Modi eaque at, cumque
-              voluptas voluptatum ea nobis. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Eveniet facilis aliquid voluptas
-              esse fugiat blanditiis, ab nisi, amet tempora exercitationem
-              repellat non. Modi eaque at, cumque voluptas voluptatum ea nobis.
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet
-              facilis aliquid voluptas esse fugiat blanditiis, ab nisi, amet
-              tempora exercitationem repellat non. Modi eaque at, cumque
-              voluptas voluptatum ea nobis.
+              Welcome to the official website of Eagle Football Club. A website
+              about football where you can read news about football, find Eagle
+              F.C fixtures or buy match tickets online. Information about
+              football news provided by us is the most up to date. Besides the
+              fixtures, you can also view the results of Eagle F.C You can
+              easily and safely buy tickets for Eagle F.C matches online
+              anywhere anytime. Purchasing tickets online with a one-person
+              one-seat system is expected to avoid overload capacity in the
+              stadium. from football by football and for football because
+              football can bring it all together.
             </p>
           </Card>
         </div>
@@ -170,7 +169,7 @@ function DescriptionCard() {
                       height: "7%",
                     }}
                   />
-                  <p>{toLocalDate(nextMatch?.startDate)}</p>
+                  <p>{toLocalDate(nextMatch?.startDate)} WIB</p>
                   <button
                     className="btn btn-dark"
                     onClick={() => navigate("/ticket/" + nextMatch.id)}

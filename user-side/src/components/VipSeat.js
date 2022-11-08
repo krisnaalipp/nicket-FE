@@ -42,15 +42,22 @@ function VipSeat() {
       minimumFractionDigits: 0,
     }).format(money);
   };
+
   const addSeat = (seat, e) => {
     const { value, checked } = e.target;
-    if (checked && selectSeat.length !== 3) {
-      setSeats([...selectSeat, { seatNumber: value }]);
+    if (checked) {
+      if (selectSeat.length < 3) {
+        setSeats([...selectSeat, { seatNumber: value }]);
+      } else {
+        e.preventDefault();
+        e.target.checked = false;
+      }
     } else {
       const temp = selectSeat.filter((el) => el.seatNumber !== seat);
       setSeats(temp);
     }
   };
+
   const [handleSubmit, { error, loading, data }] = useMutation(
     PURCHASE_TICKET,
     {
@@ -487,14 +494,14 @@ function VipSeat() {
                 }}
               >
                 <Button
-                  variant="warning"
+                  variant="secondary"
                   onClick={() => navigate("/ticket/" + matchId)}
                 >
                   Back
                 </Button>
                 &nbsp;
-                <Button variant="primary" type="submit">
-                  Purchase
+                <Button variant="dark" type="submit">
+                  Next
                 </Button>
                 <ModalPayment
                   show={show}
