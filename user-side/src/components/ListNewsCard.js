@@ -1,6 +1,18 @@
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
 
+function toLocalDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    hour12: false,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function ListNewsCard({ news }) {
   const navigate = useNavigate();
 
@@ -33,10 +45,10 @@ function ListNewsCard({ news }) {
                   {news.description.substring(0, 40)} ...
                 </p>
                 <div className="row">
-                  <div className="col-8">
-                    <p className="card-text">
+                  <div className="col-8" style={{ marginTop: "1.5rem" }}>
+                    <p className="card-text" style={{ marginTop: "0.3rem" }}>
                       <small className="text-muted">
-                        Last updated 3 mins ago
+                        {toLocalDate(news.createdAt)}
                       </small>
                     </p>
                   </div>
@@ -44,6 +56,7 @@ function ListNewsCard({ news }) {
                     className="col-4"
                     style={{
                       textAlign: "right",
+                      marginTop: "1.5rem",
                     }}
                   >
                     <button

@@ -3,9 +3,15 @@ import { BsDot } from "react-icons/bs";
 import { useQuery } from "@apollo/client";
 import MatchCard from "../components/MatchCard";
 import { getMatches } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function Match() {
   const { loading, error, data } = useQuery(getMatches);
+
+  if (error) {
+    return <h1>Error Data!</h1>;
+  }
+
   return (
     <>
       <div
@@ -62,7 +68,18 @@ function Match() {
         }}
       >
         {loading ? (
-          <h2>Loading...</h2>
+          <div className="row">
+            <div
+              className="col-1 mx-auto"
+              style={{
+                textAlign: "center",
+                maxWidth: "6%",
+                marginBottom: "100%",
+              }}
+            >
+              <FadeLoader color="#36d7b7" />
+            </div>
+          </div>
         ) : (
           <div className="row">
             {data.getMatch.map((el) => {

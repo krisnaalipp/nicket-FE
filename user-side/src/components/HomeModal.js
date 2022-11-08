@@ -1,31 +1,112 @@
 import { Modal, Button } from "react-bootstrap";
 import { useQuery } from "@apollo/client";
 import { getUpcomingMatch } from "../config/queries";
+import { GiWhistle } from "react-icons/gi";
+import BarLoader from "react-spinners/BarLoader";
+
+function toLocalDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    hour12: false,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export default function HomeModal(props) {
   const { loading, error, data } = useQuery(getUpcomingMatch);
-  const { getOneMatch } = data;
+
+  const nextMatch = data?.getOneMatch;
+
+  if (error) {
+    return <h1>Error Data!</h1>;
+  }
+
   return (
     <Modal
       {...props}
-      size="lg"
+      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       {loading ? (
-        <h3>Loading...</h3>
+        <BarLoader style={{ textAlign: "center" }} color="#36d7b7" />
       ) : (
         <>
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              Eagel F.C VS {getOneMatch.opponent}
+              <h3>Upcoming Match</h3>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h4>{getOneMatch.startDate}</h4>
-            <p>{getOneMatch.availableSeats}</p>
+            <div className="row">
+              <div
+                className="col-5"
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <img
+                  src="https://cdn.discordapp.com/attachments/1035515386172543087/1038008127443968030/logo.png"
+                  alt="logo"
+                  style={{
+                    width: "5rem",
+                    height: "5rem",
+                  }}
+                />
+                <h5>Eagle F.C</h5>
+              </div>
+              <div
+                className="col-2"
+                style={{
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <h1>V</h1>
+              </div>
+              <div
+                className="col-5"
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <img
+                  src={nextMatch?.opponentLogo}
+                  alt="logo"
+                  style={{
+                    width: "5rem",
+                    height: "5rem",
+                  }}
+                />
+                <h5>{nextMatch?.opponent}</h5>
+              </div>
+            </div>
+            <div className="row" style={{ height: "5rem" }}>
+              <div className="col-8 mx-auto" style={{ textAlign: "center" }}>
+                <GiWhistle
+                  style={{
+                    width: "23%",
+                    height: "23%",
+                  }}
+                />
+                <p>{toLocalDate(nextMatch?.startDate)} WIB</p>
+                <p style={{ marginTop: "-1rem" }}>
+                  Available Seat: <b>{nextMatch?.availableSeats}</b>
+                </p>
+              </div>
+            </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={props.onHide}>Close</Button>
+            <div className="row" style={{ width: "100%" }}>
+              <div className="col-8 mx-auto" style={{ textAlign: "center" }}>
+                <Button className="btn btn-dark">Buy Now</Button>
+              </div>
+            </div>
           </Modal.Footer>
         </>
       )}

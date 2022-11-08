@@ -3,6 +3,7 @@ import { ImNewspaper } from "react-icons/im";
 import { BsDot } from "react-icons/bs";
 import { useQuery } from "@apollo/client";
 import { readNews } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function ListNews() {
   const { loading, error, data } = useQuery(readNews);
@@ -67,7 +68,18 @@ function ListNews() {
         }}
       >
         {loading ? (
-          <h1 className="text-center">Loading...</h1>
+          <div className="row">
+            <div
+              className="col-1 mx-auto"
+              style={{
+                textAlign: "center",
+                maxWidth: "6%",
+                marginBottom: "100%",
+              }}
+            >
+              <FadeLoader color="#36d7b7" />
+            </div>
+          </div>
         ) : (
           <div className="row">
             {data.getNews?.map((el) => (

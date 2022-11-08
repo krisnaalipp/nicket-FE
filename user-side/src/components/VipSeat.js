@@ -2,7 +2,7 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
-import { MdAirlineSeatReclineNormal } from "react-icons/md";
+import { MdAirlineSeatReclineNormal, MdEventSeat } from "react-icons/md";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import "../vipSeat.css";
 // import { useLocation } from "react-router-dom";
@@ -343,7 +343,7 @@ function VipSeat() {
               className="col-3 mx-auto"
               style={{ backgroundColor: "#ddd", borderRadius: "0.3rem" }}
             >
-              Sold
+              <b>Sold</b>
             </div>
             <div
               className="col-3 mx-auto"
@@ -352,7 +352,7 @@ function VipSeat() {
                 borderRadius: "0.3rem",
               }}
             >
-              Available
+              <b>Available</b>
             </div>
             <div
               className="col-3 mx-auto"
@@ -361,7 +361,7 @@ function VipSeat() {
                 borderRadius: "0.3rem",
               }}
             >
-              Selected
+              <b>Selected</b>
             </div>
           </div>
         </Card>
@@ -419,7 +419,20 @@ function VipSeat() {
                 return (
                   <>
                     <div className="col-2">
-                      <h6>{el.seat}</h6>
+                      <h6
+                        className="text-center"
+                        style={{
+                          backgroundColor: "rgba(13, 170, 7, 1)",
+                          padding: "0.1rem",
+                          borderRadius: "0.3rem",
+                          color: "white",
+                          width: "3.7rem",
+                        }}
+                      >
+                        <MdEventSeat />
+                        &nbsp;
+                        {el.seat}
+                      </h6>
                     </div>
                   </>
                 );

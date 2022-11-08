@@ -8,6 +8,7 @@ export const readNews = gql`
       imgUrl
       description
       tags
+      createdAt
     }
   }
 `;
@@ -20,6 +21,7 @@ export const readNewsById = gql`
       imgUrl
       description
       tags
+      createdAt
     }
   }
 `;
@@ -46,6 +48,19 @@ export const getMatches = gql`
       result
       startDate
       availableSeats
+    }
+  }
+`;
+
+export const readLatestNews = gql`
+  query GetNews {
+    getNewsLimit {
+      _id
+      title
+      imgUrl
+      description
+      tags
+      createdAt
     }
   }
 `;

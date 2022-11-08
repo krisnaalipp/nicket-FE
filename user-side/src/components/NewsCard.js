@@ -1,13 +1,28 @@
 import Card from "react-bootstrap/Card";
 import * as Icon from "react-bootstrap-icons";
 import "../custom.css";
+import { useNavigate } from "react-router-dom";
 
-function NewsCard() {
+function toLocalDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    hour12: false,
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function NewsCard({ latestNews }) {
+  const navigate = useNavigate();
+
   return (
     <div className="col-4 mx-auto">
       <Card className="bg-dark text-white shadow-lg card-zoom">
         <Card.Img
-          src="https://images.unsplash.com/photo-1624072213576-766398edb398?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+          src={latestNews.imgUrl}
+          style={{
+            height: "13rem",
+          }}
           alt="Card image"
         />
         <Card.ImgOverlay>
@@ -18,12 +33,11 @@ function NewsCard() {
               bottom: 8,
             }}
           >
-            <Card.Title>Card title</Card.Title>
-            <Card.Text>This is a wider card with supporting text.</Card.Text>
+            <Card.Title>{latestNews.title}</Card.Title>
             <div className="col-8">
               <Card.Text>
                 <Icon.ClockFill />
-                &nbsp; 11 November 2022
+                &nbsp;{toLocalDate(latestNews.createdAt)}
               </Card.Text>
             </div>
             <div
@@ -32,7 +46,12 @@ function NewsCard() {
                 textAlign: "center",
               }}
             >
-              <button className="btn btn-secondary">Read</button>
+              <button
+                onClick={() => navigate(`/detail-news/${latestNews._id}`)}
+                className="btn btn-secondary stretched-link"
+              >
+                Read
+              </button>
             </div>
           </div>
         </Card.ImgOverlay>

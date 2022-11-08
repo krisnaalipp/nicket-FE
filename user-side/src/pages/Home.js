@@ -5,9 +5,18 @@ import Card from "react-bootstrap/Card";
 import { useState } from "react";
 import { MdOutlineUpdate } from "react-icons/md";
 import HomeModal from "../components/HomeModal";
+import { useQuery } from "@apollo/client";
+import { readLatestNews } from "../config/queries";
 
 function Home() {
   const [show, setModalShow] = useState(true);
+
+  const { loading, error, data } = useQuery(readLatestNews);
+  // console.log(data);
+
+  if (error) {
+    return <h1>Error Data!</h1>;
+  }
 
   return (
     <>
@@ -34,11 +43,15 @@ function Home() {
             />
             LATEST NEWS
           </h5>
-          <div className="row">
-            <NewsCard />
-            <NewsCard />
-            <NewsCard />
-          </div>
+          {loading ? (
+            <h3 className="text-center">Loading ...</h3>
+          ) : (
+            <div className="row">
+              {data.getNewsLimit?.map((el) => (
+                <NewsCard latestNews={el} key={el._id} />
+              ))}
+            </div>
+          )}
         </Card>
       </div>
     </>

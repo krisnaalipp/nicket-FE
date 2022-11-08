@@ -9,6 +9,19 @@ import {
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { readNewsById } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
+
+function toLocalDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    hour12: false,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
 
 function DetailNews() {
   const { id } = useParams();
@@ -64,7 +77,18 @@ function DetailNews() {
       </div>
       <div className="container">
         {loading ? (
-          <h1 className="text-center">Loading...</h1>
+          <div className="row">
+            <div
+              className="col-1 mx-auto"
+              style={{
+                textAlign: "center",
+                maxWidth: "6%",
+                marginBottom: "100%",
+              }}
+            >
+              <FadeLoader color="#36d7b7" />
+            </div>
+          </div>
         ) : (
           <div className="row">
             <div
@@ -99,7 +123,7 @@ function DetailNews() {
                       paddingTop: "1%",
                     }}
                   >
-                    Friday 04 November 2022 20:30
+                    {toLocalDate(data?.newsById?.createdAt)}
                   </div>
                 </div>
                 <hr />

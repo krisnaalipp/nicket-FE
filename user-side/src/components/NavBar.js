@@ -33,7 +33,7 @@ function NavBar() {
           className={color ? "header header-bg" : "header"}
         >
           <Container>
-            <Navbar.Brand onClick={() => navigate("/")}>NICKET</Navbar.Brand>
+            <Navbar.Brand onClick={() => navigate("/")}>EAGLE F.C</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">

@@ -1,5 +1,17 @@
 import Card from "react-bootstrap/Card";
 
+function toLocalDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    hour12: false,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function MatchCard({ match }) {
   return (
     <>
@@ -19,7 +31,7 @@ function MatchCard({ match }) {
             </div>
             <div className="col-2">
               <h6 className="card-title" style={{ textAlign: "center" }}>
-                {match.startDate}
+                {toLocalDate(match.startDate)} WIB
               </h6>
             </div>
             <div className="col-5">
@@ -44,9 +56,15 @@ function MatchCard({ match }) {
               </h2>
             </div>
             <div className="col-2">
-              <h1 className="text-center" style={{ marginTop: "21%" }}>
-                {match.result}
-              </h1>
+              {match.result !== "Not Started" ? (
+                <h1 className="text-center" style={{ marginTop: "21%" }}>
+                  {match.result}
+                </h1>
+              ) : (
+                <h5 className="text-center" style={{ marginTop: "21%" }}>
+                  {match.result}
+                </h5>
+              )}
             </div>
             <div className="col-5">
               <Card.Img
@@ -73,7 +91,15 @@ function MatchCard({ match }) {
               }}
             >
               {match.result !== "Not Started" ? (
-                <h2>= Ended =</h2>
+                <h5
+                  style={{
+                    backgroundColor: "rgba(199, 198, 198, 0.69)",
+                    padding: "1%",
+                    borderRadius: "0.5rem",
+                  }}
+                >
+                  Ended
+                </h5>
               ) : (
                 <button className="btn btn-dark">Buy Ticket</button>
               )}
