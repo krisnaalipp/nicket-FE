@@ -4,6 +4,7 @@ import { GiSoccerBall, GiWhistle } from "react-icons/gi";
 import { HiOutlineTicket } from "react-icons/hi2";
 import { ImNewspaper } from "react-icons/im";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { getUpcomingMatch } from "../config/queries";
 
 function toLocalDate(date) {
@@ -21,6 +22,7 @@ function toLocalDate(date) {
 function DescriptionCard() {
   const { loading, error, data } = useQuery(getUpcomingMatch);
   const nextMatch = data?.getOneMatch;
+  const navigate = useNavigate();
 
   if (error) {
     return <h1>Error Data!</h1>;
@@ -169,7 +171,12 @@ function DescriptionCard() {
                     }}
                   />
                   <p>{toLocalDate(nextMatch?.startDate)}</p>
-                  <button className="btn btn-dark">Buy Ticket</button>
+                  <button
+                    className="btn btn-dark"
+                    onClick={() => navigate("/ticket/" + nextMatch.id)}
+                  >
+                    Buy Ticket
+                  </button>
                 </div>
               </>
             )}

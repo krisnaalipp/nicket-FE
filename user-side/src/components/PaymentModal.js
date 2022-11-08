@@ -1,5 +1,67 @@
-import { Modal } from "react-bootstrap";
+import { useMutation, useQuery } from "@apollo/client";
+import { Modal, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { POST_ORDER, UPDATE_ISPAID } from "../config/mutations";
+import { getTransactionDetail } from "../config/queries";
 export default function ModalPayment(props) {
+  const navigate = useNavigate();
+
+  const { error, loading, data } = useQuery(getTransactionDetail, {
+    variables: {
+      getTransactionDetailId: props.transactionId,
+    },
+  });
+  const [
+    updatePayment,
+    { error: errorPaymentUpdate, loading: loadingPayment, data: dataPayment },
+  ] = useMutation(UPDATE_ISPAID, {
+    onCompleted: (data) => {
+      console.log(data);
+      console.log("Berhasil");
+      navigate("/");
+    },
+  });
+
+  const [
+    postOrder,
+    { error: errorOrder, loading: loadingOrder, data: orderData },
+  ] = useMutation(POST_ORDER, {
+    onCompleted: (data) => {
+      window.snap.pay(`${data?.postOrder?.transactionToken}`, {
+        onSuccess: async (result) => {
+          updatePayment({
+            variables: {
+              updateTransaction: {
+                TransactionId: +props.transactionId,
+                transaction_status: result.transaction_status,
+              },
+            },
+          });
+        },
+        onPending: function (result) {
+          console.log("pending");
+          console.log(result);
+        },
+        onError: function (result) {
+          console.log("error");
+          console.log(result);
+        },
+        onClose: function () {
+          console.log(
+            "customer closed the popup without finishing the payment"
+          );
+        },
+      });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const closeHandler = () => {
+    props.onHide();
+    navigate("/");
+  };
   return (
     <Modal
       {...props}
@@ -7,22 +69,42 @@ export default function ModalPayment(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h4>Centered Modal</h4>
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
-        </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
+      {loading ? (
+        <h2>Loading....</h2>
+      ) : (
+        <>
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              ini countdown
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h4>Ticket Detail</h4>
+            <p>KTP : {data?.getTransactionDetail?.ktp}</p>
+            <p>Email : {data?.getTransactionDetail?.email}</p>
+            <p>Category : {data?.getTransactionDetail?.categorySeat}</p>
+            <p>
+              Total Price : {data?.getTransactionDetail?.Seats?.length * 150000}
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              onClick={() => {
+                console.log(props.transactionId);
+                postOrder({
+                  variables: {
+                    postOrderId: props.transactionId,
+                  },
+                });
+                console.log(props.transactionId);
+              }}
+            >
+              Pay
+            </Button>
+            <Button onClick={closeHandler}>Close</Button>
+          </Modal.Footer>
+        </>
+      )}
     </Modal>
   );
 }

@@ -29,15 +29,15 @@ const router = createBrowserRouter([
         element: <DetailNews />,
       },
       {
-        path: "/ticket",
+        path: "/ticket/:matchId",
         element: <Ticket />,
       },
       {
-        path: "/seat",
+        path: "/seat/:matchId",
         element: <RegulerSeatTicket />,
       },
       {
-        path: "/seat-vip",
+        path: "/seat-vip/:matchId",
         element: <VipSeatTicket />,
       },
     ],

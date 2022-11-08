@@ -52,6 +52,19 @@ export const getMatches = gql`
   }
 `;
 
+export const getMatchId = gql`
+  query Query($getMatchByIdId: ID) {
+    getMatchById(id: $getMatchByIdId) {
+      id
+      opponent
+      opponentLogo
+      result
+      startDate
+      availableSeats
+    }
+  }
+`;
+
 export const readLatestNews = gql`
   query GetNews {
     getNewsLimit {
@@ -61,6 +74,25 @@ export const readLatestNews = gql`
       description
       tags
       createdAt
+    }
+  }
+`;
+
+export const getTransactionDetail = gql`
+  query GetTransaction($getTransactionDetailId: ID) {
+    getTransactionDetail(id: $getTransactionDetailId) {
+      id
+      ktp
+      email
+      categorySeat
+      ticketPrice
+      amount
+      MatchId
+      isPaid
+      createdAt
+      Seats {
+        seatNumber
+      }
     }
   }
 `;

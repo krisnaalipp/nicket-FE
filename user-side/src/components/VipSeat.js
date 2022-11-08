@@ -5,16 +5,26 @@ import Button from "react-bootstrap/Button";
 import { MdAirlineSeatReclineNormal, MdEventSeat } from "react-icons/md";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import "../vipSeat.css";
-// import { useLocation } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { PURCHASE_TICKET } from "../config/mutations";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import ModalPayment from "./PaymentModal";
 
 function VipSeat() {
-  // const location = useLocation();
-  //! console.log(location.state.category);
+  const { matchId } = useParams();
+  const location = useLocation();
+  const { category } = location.state;
+  const [transactionId, setTransactionId] = useState();
   const [selectSeat, setSeats] = useState([]);
   const [ticketInput, setTicketInput] = useState({
     ktp: "",
     email: "",
+    categorySeat: category,
+    ticketPrice: 200000,
+    MatchId: +matchId,
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -24,14 +34,6 @@ function VipSeat() {
     newInput[name] = value;
     setTicketInput(newInput);
   };
-
-  // const handleSubmit = async () => {
-  //   try {
-  //     await axios.post();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const formatRupiah = (money) => {
     return new Intl.NumberFormat("id-ID", {
@@ -43,12 +45,37 @@ function VipSeat() {
   const addSeat = (seat, e) => {
     const { value, checked } = e.target;
     if (checked) {
-      setSeats([...selectSeat, { seat: value }]);
+      setSeats([...selectSeat, { seatNumber: value }]);
     } else {
-      const temp = selectSeat.filter((el) => el.seat !== seat);
+      const temp = selectSeat.filter((el) => el.seatNumber !== seat);
       setSeats(temp);
     }
   };
+  const [handleSubmit, { error, loading, data }] = useMutation(
+    PURCHASE_TICKET,
+    {
+      onCompleted: (data) => {
+        setTicketInput({
+          ktp: "",
+          email: "",
+          ticketPrice: 150000,
+          category,
+          MatchId: +matchId,
+        });
+        setSeats([]);
+        setTransactionId(data.createTransaction.id);
+        handleShow();
+      },
+      onError: (error) => {
+        setSeats([]);
+        console.log(error);
+      },
+    }
+  );
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const vipSeats = [
     [
       "1-A",
@@ -367,94 +394,117 @@ function VipSeat() {
         </Card>
       </div>
       <div className="col-6 mx-auto" style={{ marginTop: "2rem" }}>
-        <Card
-          body
-          className="shadow-lg"
-          style={{
-            border: 0,
-          }}
-        >
-          <div
+        {loading ? (
+          <h2>Loading.....</h2>
+        ) : (
+          <Card
+            body
+            className="shadow-lg"
             style={{
-              textAlign: "center",
+              border: 0,
             }}
           >
-            <h6>
-              <IoInformationCircleSharp
-                style={{
-                  width: "8%",
-                  height: "8%",
-                  marginRight: "1%",
-                  marginBottom: "0.5%",
-                }}
-              />
-              Complete your ticket purchase information
-            </h6>
-          </div>
-          <hr />
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>KTP</Form.Label>
-              <Form.Control
-                type="text"
-                value={ticketInput.ktp}
-                name="ktp"
-                onChange={handleChange}
-                placeholder="Enter your KTP"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                onChange={handleChange}
-                value={ticketInput.email}
-                placeholder="Enter your email"
-              />
-            </Form.Group>
-            <Form.Label>Seats</Form.Label>
-            <div className="row mb-3">
-              {selectSeat.map((el, i) => {
-                return (
-                  <>
-                    <div className="col-2">
-                      <h6
-                        className="text-center"
-                        style={{
-                          backgroundColor: "rgba(13, 170, 7, 1)",
-                          padding: "0.1rem",
-                          borderRadius: "0.3rem",
-                          color: "white",
-                          width: "3.7rem",
-                        }}
-                      >
-                        <MdEventSeat />
-                        &nbsp;
-                        {el.seat}
-                      </h6>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-            <Card className="p-3 mb-3">
-              <h5>Total Item : {selectSeat.length}</h5>
-              <h5>Price : {formatRupiah(selectSeat.length * 200000)}</h5>
-            </Card>
             <div
               style={{
                 textAlign: "center",
               }}
             >
-              <Button variant="warning">Back</Button>
-              &nbsp;
-              <Button variant="primary" type="submit">
-                Purchase
-              </Button>
+              <h6>
+                <IoInformationCircleSharp
+                  style={{
+                    width: "8%",
+                    height: "8%",
+                    marginRight: "1%",
+                    marginBottom: "0.5%",
+                  }}
+                />
+                Complete your ticket purchase information
+              </h6>
             </div>
-          </Form>
-        </Card>
+            <hr />
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit({
+                  variables: {
+                    inputTransaction: { ...ticketInput, seat: selectSeat },
+                  },
+                });
+              }}
+            >
+              <Form.Group className="mb-3">
+                <Form.Label>KTP</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={ticketInput.ktp}
+                  name="ktp"
+                  onChange={handleChange}
+                  placeholder="Enter your KTP"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  onChange={handleChange}
+                  value={ticketInput.email}
+                  placeholder="Enter your email"
+                />
+              </Form.Group>
+              <Form.Label>Seats</Form.Label>
+              <div className="row mb-3">
+                {selectSeat.map((el, i) => {
+                  return (
+                    <>
+                      <div className="col-2">
+                        <h6
+                          className="text-center"
+                          style={{
+                            backgroundColor: "rgba(13, 170, 7, 1)",
+                            padding: "0.1rem",
+                            borderRadius: "0.3rem",
+                            color: "white",
+                            width: "3.7rem",
+                          }}
+                        >
+                          <MdEventSeat />
+                          &nbsp;
+                          {el.seatNumber}
+                        </h6>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+              <Card className="p-3 mb-3">
+                <h5>Total Item : {selectSeat.length}</h5>
+                <h5>Price : {formatRupiah(selectSeat.length * 200000)}</h5>
+              </Card>
+              <div
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <Button
+                  variant="warning"
+                  onClick={() => navigate("/ticket/" + matchId)}
+                >
+                  Back
+                </Button>
+                &nbsp;
+                <Button variant="primary" type="submit">
+                  Purchase
+                </Button>
+                <ModalPayment
+                  show={show}
+                  onHide={handleClose}
+                  transactionId={transactionId}
+                />
+              </div>
+            </Form>
+          </Card>
+        )}
       </div>
     </>
   );

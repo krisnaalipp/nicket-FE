@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { getUpcomingMatch } from "../config/queries";
 import { GiWhistle } from "react-icons/gi";
 import BarLoader from "react-spinners/BarLoader";
+import { useNavigate } from "react-router-dom";
 
 function toLocalDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -17,6 +18,7 @@ function toLocalDate(date) {
 }
 
 export default function HomeModal(props) {
+  const navigate = useNavigate();
   const { loading, error, data } = useQuery(getUpcomingMatch);
 
   const nextMatch = data?.getOneMatch;
@@ -104,7 +106,12 @@ export default function HomeModal(props) {
           <Modal.Footer>
             <div className="row" style={{ width: "100%" }}>
               <div className="col-8 mx-auto" style={{ textAlign: "center" }}>
-                <Button className="btn btn-dark">Buy Now</Button>
+                <Button
+                  className="btn btn-dark"
+                  onClick={() => navigate("/ticket/" + nextMatch.id)}
+                >
+                  Buy Now
+                </Button>
               </div>
             </div>
           </Modal.Footer>

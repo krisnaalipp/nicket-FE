@@ -1,21 +1,30 @@
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-// import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import Button from "react-bootstrap/Button";
 import { MdAirlineSeatReclineNormal, MdEventSeat } from "react-icons/md";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import "../seat.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { PURCHASE_TICKET } from "../config/mutations";
+import ModalPayment from "./PaymentModal";
 
-function RegulerSeat({ props }) {
+function RegulerSeat() {
+  const { matchId } = useParams();
   const location = useLocation();
   const { category } = location.state;
+  const [transactionId, setTransactionId] = useState();
   const [selectSeat, setSeats] = useState([]);
   const [ticketInput, setTicketInput] = useState({
     ktp: "",
     email: "",
+    categorySeat: category,
+    ticketPrice: 150000,
+    MatchId: +matchId,
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -36,16 +45,33 @@ function RegulerSeat({ props }) {
   const addSeat = (seat, e) => {
     const { value, checked } = e.target;
     if (checked) {
-      setSeats([...selectSeat, { seat: value }]);
+      setSeats([...selectSeat, { seatNumber: value }]);
     } else {
-      const temp = selectSeat.filter((el) => el.seat !== seat);
+      const temp = selectSeat.filter((el) => el.seatNumber !== seat);
       setSeats(temp);
     }
   };
-  // const [modalShow, setModalShow] = useState(false);
-  const handleSubmit = (e) => {
-    // e.preventDefault;
-  };
+  const [handleSubmit, { error, loading, data }] = useMutation(
+    PURCHASE_TICKET,
+    {
+      onCompleted: (data) => {
+        setTicketInput({
+          ktp: "",
+          email: "",
+          ticketPrice: 150000,
+          category,
+          MatchId: +matchId,
+        });
+        setSeats([]);
+        setTransactionId(data.createTransaction.id);
+        handleShow();
+      },
+      onError: (error) => {
+        setSeats([]);
+        console.log(error);
+      },
+    }
+  );
 
   const regularSeats = [
     ["1-A", "1-B", "1-C", "1-D", "1-E", "1-F", "1-G", "1-H", "1-I", "1-J"],
@@ -70,6 +96,10 @@ function RegulerSeat({ props }) {
       "10-J",
     ],
   ];
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <>
       <div className="col-7 mx-auto">
@@ -170,94 +200,117 @@ function RegulerSeat({ props }) {
         </Card>
       </div>
       <div className="col-5 mx-auto">
-        <Card
-          body
-          className="shadow-lg"
-          style={{
-            border: 0,
-          }}
-        >
-          <div
+        {loading ? (
+          <h3>Loading ...</h3>
+        ) : (
+          <Card
+            body
+            className="shadow-lg"
             style={{
-              textAlign: "center",
+              border: 0,
             }}
           >
-            <h6>
-              <IoInformationCircleSharp
-                style={{
-                  width: "8%",
-                  height: "8%",
-                  marginRight: "1%",
-                  marginBottom: "0.5%",
-                }}
-              />
-              Complete your ticket purchase information
-            </h6>
-          </div>
-          <hr />
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>KTP</Form.Label>
-              <Form.Control
-                type="text"
-                value={ticketInput.ktp}
-                name="ktp"
-                onChange={handleChange}
-                placeholder="Enter your KTP"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                value={ticketInput.email}
-                name="email"
-                onChange={handleChange}
-                placeholder="Enter your email"
-              />
-            </Form.Group>
-            <Form.Label>Seats</Form.Label>
-            <div className="row mb-3">
-              {selectSeat.map((el, i) => {
-                return (
-                  <>
-                    <div className="col-2">
-                      <h6
-                        className="text-center"
-                        style={{
-                          backgroundColor: "rgba(13, 170, 7, 1)",
-                          padding: "0.1rem",
-                          borderRadius: "0.3rem",
-                          color: "white",
-                          width: "3.7rem",
-                        }}
-                      >
-                        <MdEventSeat />
-                        &nbsp;
-                        {el.seat}
-                      </h6>
-                    </div>
-                  </>
-                );
-              })}
-            </div>
-            <Card className="p-3 mb-3">
-              <h5>Total Item : {selectSeat.length}</h5>
-              <h5>Price : {formatRupiah(selectSeat.length * 150000)}</h5>
-            </Card>
             <div
               style={{
                 textAlign: "center",
               }}
             >
-              <Button variant="warning">Back</Button>
-              &nbsp;
-              <Button variant="primary" type="submit" onSubmit={handleSubmit}>
-                Purchase
-              </Button>
+              <h6>
+                <IoInformationCircleSharp
+                  style={{
+                    width: "8%",
+                    height: "8%",
+                    marginRight: "1%",
+                    marginBottom: "0.5%",
+                  }}
+                />
+                Complete your ticket purchase information
+              </h6>
             </div>
-          </Form>
-        </Card>
+            <hr />
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit({
+                  variables: {
+                    inputTransaction: { ...ticketInput, seat: selectSeat },
+                  },
+                });
+              }}
+            >
+              <Form.Group className="mb-3">
+                <Form.Label>KTP</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={ticketInput.ktp}
+                  name="ktp"
+                  onChange={handleChange}
+                  placeholder="Enter your KTP"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={ticketInput.email}
+                  name="email"
+                  onChange={handleChange}
+                  placeholder="Enter your email"
+                />
+              </Form.Group>
+              <Form.Label>Seats</Form.Label>
+              <div className="row mb-3">
+                {selectSeat.map((el, i) => {
+                  return (
+                    <>
+                      <div className="col-2">
+                        <h6
+                          className="text-center"
+                          style={{
+                            backgroundColor: "rgba(13, 170, 7, 1)",
+                            padding: "0.1rem",
+                            borderRadius: "0.3rem",
+                            color: "white",
+                            width: "3.7rem",
+                          }}
+                        >
+                          <MdEventSeat />
+                          &nbsp;
+                          {el.seatNumber}
+                        </h6>
+                      </div>
+                    </>
+                  );
+                })}
+              </div>
+              <Card className="p-3 mb-3">
+                <h5>Total Item : {selectSeat.length}</h5>
+                <h5>Price : {formatRupiah(selectSeat.length * 150000)}</h5>
+              </Card>
+              <div
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                <Button
+                  variant="warning"
+                  onClick={() => navigate("/ticket/" + matchId)}
+                >
+                  Back
+                </Button>
+                &nbsp;
+                <Button variant="primary" type="submit">
+                  Purchase
+                </Button>
+                <ModalPayment
+                  show={show}
+                  onHide={handleClose}
+                  transactionId={transactionId}
+                />
+              </div>
+            </Form>
+          </Card>
+        )}
       </div>
     </>
   );

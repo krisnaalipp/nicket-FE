@@ -1,4 +1,5 @@
 import Card from "react-bootstrap/Card";
+import { useNavigate } from "react-router-dom";
 
 function toLocalDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -13,6 +14,7 @@ function toLocalDate(date) {
 }
 
 function MatchCard({ match }) {
+  const navigate = useNavigate();
   return (
     <>
       <div className="col-10 mx-auto" style={{ marginBottom: "2rem" }}>
@@ -101,7 +103,12 @@ function MatchCard({ match }) {
                   Ended
                 </h5>
               ) : (
-                <button className="btn btn-dark">Buy Ticket</button>
+                <button
+                  className="btn btn-dark"
+                  onClick={() => navigate("/ticket/" + match.id)}
+                >
+                  Buy Ticket
+                </button>
               )}
             </div>
           </div>

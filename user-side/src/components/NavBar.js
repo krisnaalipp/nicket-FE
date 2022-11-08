@@ -49,18 +49,6 @@ function NavBar() {
                 >
                   Match
                 </Nav.Link>
-                <Nav.Link
-                  className={splitLocation[1] === "ticket" ? "active" : ""}
-                  onClick={() => navigate("/ticket")}
-                >
-                  Ticket
-                </Nav.Link>
-              </Nav>
-              <Nav>
-                <Nav.Link href="#deets">More deets</Nav.Link>
-                <Nav.Link eventKey={2} href="#memes">
-                  Dank memes
-                </Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
