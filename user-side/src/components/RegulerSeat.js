@@ -151,16 +151,18 @@ function RegulerSeat() {
                       <ol className="seats">
                         {el.map((elSeat, index) => {
                           return (
-                            <li className="seat">
-                              <input
-                                type="checkbox"
-                                onChange={(e) => addSeat(elSeat, e)}
-                                value={elSeat}
-                                name={elSeat}
-                                id={elSeat}
-                              />
-                              <label for={elSeat}>{elSeat}</label>
-                            </li>
+                            <>
+                              <li className="seat">
+                                <input
+                                  type="checkbox"
+                                  onChange={(e) => addSeat(elSeat, e)}
+                                  value={elSeat}
+                                  name={elSeat}
+                                  id={elSeat}
+                                />
+                                <label for={elSeat}>{elSeat}</label>
+                              </li>
+                            </>
                           );
                         })}
                       </ol>

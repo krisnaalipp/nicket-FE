@@ -44,7 +44,7 @@ function VipSeat() {
   };
   const addSeat = (seat, e) => {
     const { value, checked } = e.target;
-    if (checked) {
+    if (checked && selectSeat.length !== 3) {
       setSeats([...selectSeat, { seatNumber: value }]);
     } else {
       const temp = selectSeat.filter((el) => el.seatNumber !== seat);
