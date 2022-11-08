@@ -11,6 +11,7 @@ export default function AddNews(props) {
     description: "",
     tags: "",
   });
+
   function inputHandler(e) {
     setItem({
       ...item,
