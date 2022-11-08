@@ -5,6 +5,7 @@ import { useState } from "react";
 import { ADD_MATCH } from "../config/mutations";
 import { useMutation } from "@apollo/client";
 import { GET_MATCHES } from "../config/queries";
+import Swal from "sweetalert2";
 
 export default function AddMatch({ show, setShow }) {
   const handleClose = () => setShow(false);
@@ -27,24 +28,26 @@ export default function AddMatch({ show, setShow }) {
         { query: GET_MATCHES }, // DocumentNode object parsed with gql
       ],
       onCompleted: (data) => {
-        console.log("berhasil add matches", data);
+        // console.log("berhasil add matches", data);
+        Swal.fire("Good job!", "New match added!", "success");
+      },
+      onError: (error) => {
+        // console.log(error);
+        Swal.fire("Error!", "Something is wrong!", "error");
       },
     });
-  console.log(data, "=== set data");
+  // console.log(data, "=== set data");
 
   return (
     <Modal show={show} onHide={handleClose}>
       <Form
         onSubmit={(e) => {
           e.preventDefault();
-          if (data.opponent && data.opponentLogo && data.startDate) {
-            console.log(data, "====data dari handle submit");
-            handleSubmit({
-              variables: {
-                inputMatch: data,
-              },
-            });
-          }
+          handleSubmit({
+            variables: {
+              inputMatch: data,
+            },
+          });
           setData({
             opponent: "",
             opponentLogo: "",

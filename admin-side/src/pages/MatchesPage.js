@@ -6,6 +6,7 @@ import { GET_MATCHES } from "../config/queries";
 import FadeLoader from "react-spinners/FadeLoader";
 import MatchesCard from "../components/MatchesCard";
 import { EDIT_RESULT } from "../config/mutations";
+import Swal from "sweetalert2";
 
 export default function Matches() {
   const { data, loading } = useQuery(GET_MATCHES);
@@ -17,6 +18,11 @@ export default function Matches() {
       ],
       onCompleted: (data) => {
         console.log("berhasil edit result", data);
+        Swal.fire("Good job!", "You have edited the Result!", "success");
+      },
+      onError: (error) => {
+        console.log(error);
+        Swal.fire("Error!", "Something is wrong!", "error");
       },
     });
   //modal add match
@@ -38,7 +44,11 @@ export default function Matches() {
           Matches and Fixtures
         </h2>
         <div className="d-flex justify-content-center">
-          <Button className="btn-success m-4 p-3" onClick={handleShow}>
+          <Button
+            className=" m-4 p-3 shadow"
+            style={{ color: "white" }}
+            onClick={handleShow}
+          >
             <b>ADD NEW MATCHES</b>
           </Button>
           <AddMatch show={show} setShow={setShow} />

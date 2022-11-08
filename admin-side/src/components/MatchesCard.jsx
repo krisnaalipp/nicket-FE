@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Card, Button, Form, ListGroup } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 export default function MatchesCard({ data, updateResult }) {
   const [editResult, setEditResult] = useState({
@@ -10,7 +11,7 @@ export default function MatchesCard({ data, updateResult }) {
   const [isEdit, setEdit] = useState(false);
 
   const handleEdit = () => {
-    console.log("masuik edit");
+    // console.log("masuik edit");
     // console.log(edit);
     setEdit(true);
   };
@@ -18,17 +19,18 @@ export default function MatchesCard({ data, updateResult }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setEdit(false);
-    if (editResult.scoreLeft && editResult.scoreRight) {
-      updateResult({
-        variables: {
-          updateResultId: data.id,
-          inputResult: {
-            result: `${editResult.scoreLeft}-${editResult.scoreRight}`,
-          },
-        },
-      });
+    if (!editResult.scoreLeft && !editResult.scoreRight) {
+      throw Swal.fire("Error!", "Something is wrong!", "error");
     }
-    console.log(editResult, "===ini value ");
+    updateResult({
+      variables: {
+        updateResultId: data.id,
+        inputResult: {
+          result: `${editResult.scoreLeft}-${editResult.scoreRight}`,
+        },
+      },
+    });
+    // console.log(editResult, "===ini value ");
   };
 
   function handleInput(e) {
@@ -36,7 +38,7 @@ export default function MatchesCard({ data, updateResult }) {
       ...editResult,
       [e.target.name]: e.target.value,
     });
-    console.log(setEditResult, "====edit result");
+    // console.log(setEditResult, "====edit result");
   }
 
   function showDate(date) {
