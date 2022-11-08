@@ -23,3 +23,16 @@ export const GET_NEWSBY_ID = gql`
     }
   }
 `;
+
+export const GET_MATCHES = gql`
+  query Query {
+    getMatch {
+      id
+      opponent
+      opponentLogo
+      result
+      startDate
+      availableSeats
+    }
+  }
+`;

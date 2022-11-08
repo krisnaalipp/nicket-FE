@@ -1,6 +1,7 @@
 import { Sidebar, MenuItem, Menu, useProSidebar } from "react-pro-sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { PieChartFill, Newspaper, Calendar3 } from "react-bootstrap-icons";
+import { RiRegisteredFill } from "react-icons/ri";
 
 export default function SideBar() {
   const { collapseSidebar } = useProSidebar();
@@ -33,12 +34,13 @@ export default function SideBar() {
             <MenuItem onClick={() => navigate("/fixtures")}>
               <Calendar3 size={25} /> --Matches
             </MenuItem>
+            <MenuItem onClick={() => navigate("/register")}>
+              <RiRegisteredFill size={25} /> --Register Admin
+            </MenuItem>
           </Menu>
         </div>
       </Sidebar>
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
     </div>
   );
 }
