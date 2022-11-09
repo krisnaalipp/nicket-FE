@@ -29,31 +29,25 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Line Chart",
+      text: "DailyReports",
     },
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+// const labels = new Array(30).fill("").map((_, i) => i + 1);
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Dataset 1",
-      data: [500, 300, 200, 1000, 400, 600, 700],
-      borderColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Dataset 2",
-      data: [1000, 400, 700, 400, 200, 800, 900],
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
-};
+// export const data = {
+//   labels,
+//   datasets: [
+//     {
+//       label: "Previous Matches",
+//       data: [500, 300, 200, 1000, 400, 600, 700],
+//       borderColor: "rgb(255, 99, 132)",
+//       backgroundColor: "rgba(255, 99, 132, 0.5)",
+//     },
+//   ],
+// };
 
-export default function ChartPreviousMatch() {
-  return <Line options={options} data={data} />;
+export default function ChartPreviousMatch(prop) {
+  return <Line options={options} data={prop.data} />;
 }

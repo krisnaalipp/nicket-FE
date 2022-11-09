@@ -27,25 +27,24 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Bar Chart",
+      text: "Daily Reports",
     },
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = new Array(30).fill("").map((_, i) => i + 1);
 
 export const data = {
   labels,
   datasets: [
     {
-      label: "Dataset 1",
-      data: [400, 200, 400, 500, 600, 700, 800],
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-    },
-    {
-      label: "Dataset 2",
-      data: [600, 700, 800, 400, 200, 400, 500],
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      label: "Total Daily Sales",
+      data: [
+        400, 200, 400, 500, 600, 700, 800, 400, 200, 400, 500, 600, 700, 800,
+        400, 200, 400, 500, 600, 700, 800, 700, 800, 400, 500, 600, 700, 800,
+        700, 800,
+      ],
+      backgroundColor: "yellow",
     },
   ],
 };
