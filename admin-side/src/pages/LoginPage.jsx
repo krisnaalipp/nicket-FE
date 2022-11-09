@@ -25,6 +25,7 @@ export default function LoginPage() {
     onCompleted: (data) => {
       console.log("berhasil login", data);
       localStorage.setItem("access_token", data.loginAdmin.access_token);
+      navigate("/");
     },
   });
 
@@ -44,13 +45,13 @@ export default function LoginPage() {
           />
         </div>
         <Form
-          onSubmit={() => {
+          onSubmit={(e) => {
+            e.preventDefault();
             submitHandler({
               variables: {
                 inputLogin: item,
               },
             });
-            navigate("/");
           }}
         >
           <Form.Group className="mb-3" controlId="formBasicEmail">

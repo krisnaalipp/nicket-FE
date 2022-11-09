@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Form, Offcanvas, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { ADD_NEWS } from "../config/mutations";
 import { GET_NEWS } from "../config/queries";
+import Swal from "sweetalert2";
 
 export default function AddNews(props) {
   const [item, setItem] = useState({
@@ -11,6 +12,7 @@ export default function AddNews(props) {
     description: "",
     tags: "",
   });
+
   function inputHandler(e) {
     setItem({
       ...item,
@@ -25,11 +27,16 @@ export default function AddNews(props) {
       { query: GET_NEWS }, // DocumentNode object parsed with gql
     ],
     onCompleted: (data) => {
-      console.log("berhasil add news", data);
+      // console.log("berhasil add news", data);
+      Swal.fire("Good job!", "New news added!", "success");
+    },
+    onError: (error) => {
+      // console.log(error, "===from error ad news");
+      Swal.fire("Error!", "Something is wrong!", "error");
     },
   });
 
-  if (error) return <Alert>Submission error! ${error.message}</Alert>;
+  // if (error) return <Alert>Submission error! ${error.message}</Alert>;
 
   return (
     <Offcanvas {...props}>
@@ -40,8 +47,8 @@ export default function AddNews(props) {
         <Form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log("Masuk submit button");
-            console.log(item, "++++");
+            // console.log("Masuk submit button");
+            // console.log(item, "++++");
             submitHandler({
               variables: {
                 inputNews: item,

@@ -36,3 +36,22 @@ export const GET_MATCHES = gql`
     }
   }
 `;
+
+export const GET_TRANSACTIONSBYID = gql`
+  query GetTransaction($getTransactionByMatchId: ID) {
+    getTransactionByMatch(id: $getTransactionByMatchId) {
+      id
+      ktp
+      email
+      categorySeat
+      ticketPrice
+      amount
+      MatchId
+      isPaid
+      createdAt
+      Seats {
+        seatNumber
+      }
+    }
+  }
+`;

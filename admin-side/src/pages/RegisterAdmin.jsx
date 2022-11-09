@@ -4,6 +4,7 @@ import { Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { REGISTER } from "../config/mutations";
+import Swal from "sweetalert2";
 
 export default function RegisterAdmin() {
   const [item, setItem] = useState({
@@ -17,12 +18,17 @@ export default function RegisterAdmin() {
       [e.target.name]: e.target.value,
     });
 
-    console.log(e.target.name, e.target.value, "====dari login page");
+    // console.log(e.target.name, e.target.value, "====dari login page");
   }
 
   const [submitHandler, { data, loading, error }] = useMutation(REGISTER, {
     onCompleted: (data) => {
       console.log("berhasil register", data);
+      Swal.fire("Good Job!", "New admin registered!", "success");
+    },
+    onError: (error) => {
+      console.log(error);
+      Swal.fire("Error!", "Something is wrong!", "error");
     },
   });
 
@@ -87,9 +93,7 @@ export default function RegisterAdmin() {
                 placeholder="Password"
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </Form>
         </div>
       </div>

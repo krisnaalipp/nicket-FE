@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Card, Button, Form, ListGroup } from "react-bootstrap";
+import { BsFillPencilFill } from "react-icons/bs";
+import { RiEdit2Fill } from "react-icons/ri";
+import Swal from "sweetalert2";
 
 export default function MatchesCard({ data, updateResult }) {
   const [editResult, setEditResult] = useState({
@@ -10,7 +13,7 @@ export default function MatchesCard({ data, updateResult }) {
   const [isEdit, setEdit] = useState(false);
 
   const handleEdit = () => {
-    console.log("masuik edit");
+    // console.log("masuik edit");
     // console.log(edit);
     setEdit(true);
   };
@@ -18,17 +21,18 @@ export default function MatchesCard({ data, updateResult }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setEdit(false);
-    if (editResult.scoreLeft && editResult.scoreRight) {
-      updateResult({
-        variables: {
-          updateResultId: data.id,
-          inputResult: {
-            result: `${editResult.scoreLeft}-${editResult.scoreRight}`,
-          },
-        },
-      });
+    if (!editResult.scoreLeft && !editResult.scoreRight) {
+      throw Swal.fire("Error!", "Something is wrong!", "error");
     }
-    console.log(editResult, "===ini value ");
+    updateResult({
+      variables: {
+        updateResultId: data.id,
+        inputResult: {
+          result: `${editResult.scoreLeft}-${editResult.scoreRight}`,
+        },
+      },
+    });
+    // console.log(editResult, "===ini value ");
   };
 
   function handleInput(e) {
@@ -36,7 +40,7 @@ export default function MatchesCard({ data, updateResult }) {
       ...editResult,
       [e.target.name]: e.target.value,
     });
-    console.log(setEditResult, "====edit result");
+    // console.log(setEditResult, "====edit result");
   }
 
   function showDate(date) {
@@ -69,7 +73,7 @@ export default function MatchesCard({ data, updateResult }) {
             backgroundColor: "green",
           }}
         >
-          223/{seats} SOLD
+          {seats}/500 SOLD
         </h6>
       );
     }
@@ -172,24 +176,12 @@ export default function MatchesCard({ data, updateResult }) {
             <div
               className=" justify-content-center border-top pt-3"
               style={{ display: "flex" }}
-              onDoubleClick={handleEdit}
             >
               <div className="mx-4 col-4  justify-content-center">
                 <h2 style={getStylingLeft(data.result)} className="text-center">
                   {data.result !== "Not Started" ? data.result[0] : "TBD"}
                 </h2>
               </div>
-              {/* <div className="">
-                <h2
-                  style={
-                    data.result === "Not Started"
-                      ? { color: "grey" }
-                      : { color: "black" }
-                  }
-                >
-                  -
-                </h2>
-              </div> */}
               <div className="mx-4 col-4  justify-content-center">
                 <h2
                   style={getStylingRight(data.result)}
@@ -197,6 +189,13 @@ export default function MatchesCard({ data, updateResult }) {
                 >
                   {data.result !== "Not Started" ? data.result[2] : "TBD"}
                 </h2>
+              </div>
+              <div
+                className="d-flex align-items-center"
+                style={{ color: "grey", cursor: "pointer" }}
+                onClick={handleEdit}
+              >
+                <BsFillPencilFill />
               </div>
             </div>
           )}

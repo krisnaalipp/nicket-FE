@@ -1,7 +1,7 @@
 import { Sidebar, MenuItem, Menu, useProSidebar } from "react-pro-sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { PieChartFill, Newspaper, Calendar3 } from "react-bootstrap-icons";
-import { RiRegisteredFill } from "react-icons/ri";
+import { RiLogoutBoxFill, RiRegisteredFill } from "react-icons/ri";
 
 export default function SideBar() {
   const { collapseSidebar } = useProSidebar();
@@ -25,17 +25,29 @@ export default function SideBar() {
           </div>
           <Menu>
             <MenuItem onClick={() => navigate("/")}>
-              <PieChartFill size={25} />
-              --Chart
+              <PieChartFill size={25} style={{ marginRight: "10" }} />
+              Chart
             </MenuItem>
             <MenuItem onClick={() => navigate("/news")}>
-              <Newspaper size={25} /> --News
+              <Newspaper size={25} style={{ marginRight: "10" }} />
+              News
             </MenuItem>
             <MenuItem onClick={() => navigate("/fixtures")}>
-              <Calendar3 size={25} /> --Matches
+              <Calendar3 size={25} style={{ marginRight: "10" }} />
+              Matches
             </MenuItem>
             <MenuItem onClick={() => navigate("/register")}>
-              <RiRegisteredFill size={25} /> --Register Admin
+              <RiRegisteredFill size={25} style={{ marginRight: "10" }} />
+              Register Admin
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              <RiLogoutBoxFill size={25} style={{ marginRight: "10" }} />
+              Log Out
             </MenuItem>
           </Menu>
         </div>

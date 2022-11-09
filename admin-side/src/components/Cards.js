@@ -5,6 +5,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 import "../assets/overlay.css";
 import { DELETE_NEWS } from "../config/mutations";
 import { GET_NEWS } from "../config/queries";
+import Swal from "sweetalert2";
 
 export default function NewsCard({ news }) {
   const [deleteNews, { data, loading, error }] = useMutation(DELETE_NEWS, {
@@ -12,7 +13,12 @@ export default function NewsCard({ news }) {
       { query: GET_NEWS }, // DocumentNode object parsed with gql
     ],
     onCompleted: (data) => {
-      console.log("berhasil delete news", data);
+      // console.log("berhasil delete news", data);
+      Swal.fire("Good Job!", "News deleted!", "success");
+    },
+    onError: (error) => {
+      // console.log(error);
+      Swal.fire("Error!", "Something is wrong!", "error");
     },
   });
 
