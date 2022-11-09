@@ -29,10 +29,7 @@ function Ticket() {
     <>
       <div
         style={{
-          backgroundImage:
-            "url(" +
-            "https://studentlife.utk.edu/bigorangetix/wp-content/uploads/sites/2/2022/08/22-Neyland-Gameday-Map-with-Seating-2048x1583.jpg" +
-            ")",
+          backgroundImage: "url('https://i.ibb.co/f1rDWMg/final.png')",
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
@@ -94,10 +91,10 @@ function Ticket() {
                     value={category}
                     name="category"
                   >
-                    <Form.Label>Select ticket category</Form.Label>
+                    <Form.Label>Select Ticket Category</Form.Label>
                     <Form.Select style={{ textAlign: "center" }}>
                       <option selected disabled value="">
-                        SELECT CATEGORY
+                        SELECT ONE
                       </option>
                       <option value="VIP">VIP</option>
                       <option value="Reguler 1">Reguler 1</option>
@@ -170,38 +167,39 @@ function Ticket() {
                     padding: "1.5rem",
                   }}
                 >
-                  <li>Tickets are only available for certain matches</li>
                   <li>
-                    One e-ticket is valid for one person and for one match
+                    Regular ticket price is Rp. 150.000 per seat and the VIP
+                    ticket price is Rp. 200000 per seat.
                   </li>
                   <li>
-                    This e-ticket is valid as an entry ticket and cannot be
-                    represented
+                    One person can buy a maximum of three tickets and E-Ticket
+                    are only available for certain matches.
                   </li>
-                  <li>Must bring and show original identity card (KTP)</li>
+                  <li>One e-ticket is valid for one match.</li>
+                  <li>
+                    This e-ticket is valid as an entry e-ticket and cannot be
+                    represented.
+                  </li>
+                  <li>Must bring and show original identity card (KTP).</li>
                   <li>
                     Tickets that have been purchased cannot be exchanged or
                     refunded
                   </li>
                   <li>
-                    It is forbidden to bring weapons/drugs into the competition
-                    area
-                  </li>
-                  <li>
-                    It is forbidden to bring sharp weapons, firecrackers,
+                    It is forbidden to bring drugs, sharp weapons, firecrackers,
                     fireworks and flares and any items that threaten the
-                    continuity of the match
+                    continuity of the match.
                   </li>
                   <li>
                     Counterfeiting e-tickets is illegal and will be dealt with
-                    legally
+                    legally.
                   </li>
                   <li>
                     Please be careful of any fraud in the name of Eagle F.C
                   </li>
                   <li>
                     Eagle F.C reserves the right to change the terms and
-                    conditions without prior notice
+                    conditions without prior notice.
                   </li>
                 </ol>
               </Card>

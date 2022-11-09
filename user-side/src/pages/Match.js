@@ -1,4 +1,4 @@
-import { GiLaurelsTrophy } from "react-icons/gi";
+import { GiTrophyCup } from "react-icons/gi";
 import { BsDot } from "react-icons/bs";
 import { useQuery } from "@apollo/client";
 import MatchCard from "../components/MatchCard";
@@ -45,7 +45,7 @@ function Match() {
               backgroundColor: "rgba(167, 171, 175, 0.48)",
             }}
           >
-            <GiLaurelsTrophy
+            <GiTrophyCup
               style={{
                 marginBottom: "2%",
               }}

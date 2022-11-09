@@ -40,7 +40,17 @@ export default function HomeModal(props) {
         <>
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
-              <h3>Upcoming Match</h3>
+              <div
+                className="row"
+                style={{
+                  textAlign: "center",
+                  width: "29.5rem",
+                }}
+              >
+                <div className="col-6 mx-auto" style={{ marginTop: "0.5rem" }}>
+                  <h4>Upcoming Match</h4>
+                </div>
+              </div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
