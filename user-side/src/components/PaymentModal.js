@@ -1,8 +1,8 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { resetApolloContext, useMutation, useQuery } from "@apollo/client";
 import { Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { POST_ORDER, UPDATE_ISPAID } from "../config/mutations";
-import { getTransactionDetail } from "../config/queries";
+import { getBookedSeat, getTransactionDetail } from "../config/queries";
 export default function ModalPayment(props) {
   const navigate = useNavigate();
 
@@ -13,21 +13,32 @@ export default function ModalPayment(props) {
   });
   const [
     updatePayment,
-    { error: errorPaymentUpdate, loading: loadingPayment, data: dataPayment },
-  ] = useMutation(UPDATE_ISPAID, {
-    onCompleted: (data) => {
-      console.log(data);
-      console.log("Berhasil");
-      navigate("/");
+    {
+      error: errorPaymentUpdate,
+      loading: loadingPayment,
+      data: dataPayment,
+      reset,
     },
+  ] = useMutation(UPDATE_ISPAID, {
+    onCompleted: () => {
+      // navigate("/");
+    },
+    refetchQueries: [
+      {
+        query: getBookedSeat,
+        variables: {
+          getTransactionByMatchId: data?.getTransactionDetail?.MatchId,
+        },
+      },
+    ],
   });
 
   const [
     postOrder,
     { error: errorOrder, loading: loadingOrder, data: orderData },
   ] = useMutation(POST_ORDER, {
-    onCompleted: (data) => {
-      window.snap.pay(`${data?.postOrder?.transactionToken}`, {
+    onCompleted: (dataOrder) => {
+      window.snap.pay(`${dataOrder?.postOrder?.transactionToken}`, {
         onSuccess: async (result) => {
           updatePayment({
             variables: {
@@ -101,13 +112,11 @@ export default function ModalPayment(props) {
           <Modal.Footer>
             <Button
               onClick={() => {
-                console.log(props.transactionId);
                 postOrder({
                   variables: {
                     postOrderId: props.transactionId,
                   },
                 });
-                console.log(props.transactionId);
               }}
             >
               Pay

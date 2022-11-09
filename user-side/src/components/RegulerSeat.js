@@ -33,6 +33,7 @@ function RegulerSeat() {
     variables: {
       getTransactionByMatchId: +matchId,
     },
+    fetchPolicy: "no-cache",
   });
   let filterReguler;
   if (!bookedSeatLoading) {

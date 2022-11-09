@@ -13,6 +13,7 @@ import ModalPayment from "./PaymentModal";
 
 function VipSeat() {
   const { matchId } = useParams();
+  console.log(matchId, "match id tapi dari VIP seat");
   const location = useLocation();
   const { category } = location.state;
   const [transactionId, setTransactionId] = useState();
@@ -43,12 +44,15 @@ function VipSeat() {
     variables: {
       getTransactionByMatchId: matchId,
     },
+    fetchPolicy: "no-cache",
   });
+  console.log(dataBookedSeat);
   let filterVIP;
   if (!bookedSeatLoading) {
     filterVIP = dataBookedSeat?.getTransactionByMatch?.filter((el) => {
       return el.categorySeat === category;
     });
+    console.log(filterVIP, "<<<<<<<<<<<<<");
   }
 
   const formatRupiah = (money) => {
@@ -374,11 +378,10 @@ function VipSeat() {
                           return (
                             <li className="vip-seat">
                               <input
-                                disabled={filterVIP[0]?.Seats?.find((el) => {
-                                  if (el.seatNumber === vip) {
-                                    return true;
-                                  }
-                                  return false;
+                                disabled={filterVIP.find((transaction) => {
+                                  return transaction.Seats?.find((seat) => {
+                                    return seat.seatNumber === vip;
+                                  });
                                 })}
                                 type="checkbox"
                                 id={vip}

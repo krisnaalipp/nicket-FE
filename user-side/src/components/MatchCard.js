@@ -15,6 +15,15 @@ function toLocalDate(date) {
 
 function MatchCard({ match }) {
   const navigate = useNavigate();
+
+  let content = null;
+
+  if (match?.availableSeats.length === 0) {
+    content = "SOLD - OUT";
+  } else {
+    content = "Buy Ticket";
+  }
+
   return (
     <>
       <div className="col-10 mx-auto" style={{ marginBottom: "2rem" }}>
@@ -107,7 +116,7 @@ function MatchCard({ match }) {
                   className="btn btn-dark"
                   onClick={() => navigate("/ticket/" + match.id)}
                 >
-                  Buy Ticket
+                  {content}
                 </button>
               )}
             </div>

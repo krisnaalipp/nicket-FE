@@ -12,6 +12,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 function Ticket() {
   const navigate = useNavigate();
   const { matchId } = useParams();
+  console.log(matchId, "ini match id nya");
   const { loading, error, data } = useQuery(getMatchId, {
     variables: {
       getMatchByIdId: matchId,
