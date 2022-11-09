@@ -5,7 +5,8 @@ import Button from "react-bootstrap/Button";
 import { MdAirlineSeatReclineNormal, MdEventSeat } from "react-icons/md";
 import { IoInformationCircleSharp } from "react-icons/io5";
 import "../vipSeat.css";
-import { useMutation } from "@apollo/client";
+import { getBookedSeat } from "../config/queries";
+import { useMutation, useQuery } from "@apollo/client";
 import { PURCHASE_TICKET } from "../config/mutations";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import ModalPayment from "./PaymentModal";
@@ -34,6 +35,21 @@ function VipSeat() {
     newInput[name] = value;
     setTicketInput(newInput);
   };
+  const {
+    loading: bookedSeatLoading,
+    error: errorBookedSeat,
+    data: dataBookedSeat,
+  } = useQuery(getBookedSeat, {
+    variables: {
+      getTransactionByMatchId: matchId,
+    },
+  });
+  let filterVIP;
+  if (!bookedSeatLoading) {
+    filterVIP = dataBookedSeat?.getTransactionByMatch?.filter((el) => {
+      return el.categorySeat === category;
+    });
+  }
 
   const formatRupiah = (money) => {
     return new Intl.NumberFormat("id-ID", {
@@ -346,30 +362,39 @@ function VipSeat() {
                 <div className="field">Football Field</div>
               </div>
             </Card>
-
-            <ol>
-              {vipSeats.map((el, i) => {
-                return (
-                  <li className={`row row--${i}`}>
-                    <ol className="vip-seats">
-                      {el.map((vip) => {
-                        return (
-                          <li className="vip-seat">
-                            <input
-                              type="checkbox"
-                              id={vip}
-                              value={vip}
-                              onChange={(e) => addSeat(vip, e)}
-                            />
-                            <label for={vip}>{vip}</label>
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  </li>
-                );
-              })}
-            </ol>
+            {bookedSeatLoading ? (
+              <h2>Loading ...</h2>
+            ) : (
+              <ol>
+                {vipSeats.map((el, i) => {
+                  return (
+                    <li className={`row row--${i}`}>
+                      <ol className="vip-seats">
+                        {el.map((vip) => {
+                          return (
+                            <li className="vip-seat">
+                              <input
+                                disabled={filterVIP[0]?.Seats?.find((el) => {
+                                  if (el.seatNumber === vip) {
+                                    return true;
+                                  }
+                                  return false;
+                                })}
+                                type="checkbox"
+                                id={vip}
+                                value={vip}
+                                onChange={(e) => addSeat(vip, e)}
+                              />
+                              <label for={vip}>{vip}</label>
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
           </div>
           <hr />
           <div className="row" style={{ textAlign: "center" }}>

@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Button from "react-bootstrap/Button";
 import { MdAirlineSeatReclineNormal, MdEventSeat } from "react-icons/md";
 import { IoInformationCircleSharp } from "react-icons/io5";
@@ -9,6 +9,7 @@ import "../seat.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PURCHASE_TICKET } from "../config/mutations";
 import ModalPayment from "./PaymentModal";
+import { getBookedSeat } from "../config/queries";
 
 function RegulerSeat() {
   const { matchId } = useParams();
@@ -23,6 +24,22 @@ function RegulerSeat() {
     ticketPrice: 150000,
     MatchId: +matchId,
   });
+
+  const {
+    loading: bookedSeatLoading,
+    error: errorBookedSeat,
+    data: dataBookedSeat,
+  } = useQuery(getBookedSeat, {
+    variables: {
+      getTransactionByMatchId: +matchId,
+    },
+  });
+  let filterReguler;
+  if (!bookedSeatLoading) {
+    filterReguler = dataBookedSeat?.getTransactionByMatch?.filter((el) => {
+      return el.categorySeat === category;
+    });
+  }
 
   const navigate = useNavigate();
 
@@ -104,7 +121,6 @@ function RegulerSeat() {
     ],
   ];
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
@@ -148,36 +164,48 @@ function RegulerSeat() {
                 <div className="field">Football Field</div>
               </div>
             </Card>
-
-            <ol>
-              {
-                /* LOOPING SECTION */
-                regularSeats.map((el, i) => {
-                  return (
-                    <li className={`row row--${i}`}>
-                      <ol className="seats">
-                        {el.map((elSeat, index) => {
-                          return (
-                            <>
-                              <li className="seat">
-                                <input
-                                  type="checkbox"
-                                  onChange={(e) => addSeat(elSeat, e)}
-                                  value={elSeat}
-                                  name={elSeat}
-                                  id={elSeat}
-                                />
-                                <label for={elSeat}>{elSeat}</label>
-                              </li>
-                            </>
-                          );
-                        })}
-                      </ol>
-                    </li>
-                  );
-                })
-              }
-            </ol>
+            {bookedSeatLoading ? (
+              <h2>Loading ....</h2>
+            ) : (
+              <ol>
+                {
+                  /* LOOPING SECTION */
+                  regularSeats.map((el, i) => {
+                    return (
+                      <li className={`row row--${i}`}>
+                        <ol className="seats">
+                          {el.map((elSeat, index) => {
+                            return (
+                              <>
+                                <li className="seat">
+                                  <input
+                                    disabled={filterReguler[0]?.Seats?.find(
+                                      (el) => {
+                                        if (el.seatNumber === elSeat) {
+                                          return true;
+                                        } else {
+                                          return false;
+                                        }
+                                      }
+                                    )}
+                                    type="checkbox"
+                                    onChange={(e) => addSeat(elSeat, e)}
+                                    value={elSeat}
+                                    name={elSeat}
+                                    id={elSeat}
+                                  />
+                                  <label for={elSeat}>{elSeat}</label>
+                                </li>
+                              </>
+                            );
+                          })}
+                        </ol>
+                      </li>
+                    );
+                  })
+                }
+              </ol>
+            )}
           </div>
           <hr />
           <div className="row" style={{ textAlign: "center" }}>

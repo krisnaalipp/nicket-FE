@@ -96,3 +96,22 @@ export const getTransactionDetail = gql`
     }
   }
 `;
+
+export const getBookedSeat = gql`
+  query Query($getTransactionByMatchId: ID) {
+    getTransactionByMatch(id: $getTransactionByMatchId) {
+      id
+      ktp
+      email
+      categorySeat
+      ticketPrice
+      amount
+      MatchId
+      isPaid
+      createdAt
+      Seats {
+        seatNumber
+      }
+    }
+  }
+`;
