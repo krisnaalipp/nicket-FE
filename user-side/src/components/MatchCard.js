@@ -13,6 +13,40 @@ function toLocalDate(date) {
   });
 }
 
+const arr = [
+  {
+    price: 10000,
+    amount: 3,
+  },
+  {
+    price: 10000,
+    amount: 3,
+  },
+  {
+    price: 10000,
+    amount: 3,
+  },
+  {
+    price: 10000,
+    amount: 3,
+  },
+  {
+    price: 10000,
+    amount: 3,
+  },
+];
+
+const total = 0;
+arr.forEach((el) => {
+  total = el.price * amount;
+});
+/*
+Statistic 1 : GET ALL MATCH TAPI YANG DIBANDINGIN TOTAL TRANSACTION
+STATISTIC 2 : GET ALL MATCH TAPI YANG DIBANDINGIN TOTAL AMOUNT
+STATISTIC 3 : GET ONE MATCH NGITUNG PERSENTASE TOTAL AMOUNT / 500 * 100
+STATISTIC 4 : GET ALL MATCH NGITUNG TOTAL PENDAPATAN AMOUNT * 100
+ */
+
 function MatchCard({ match }) {
   const navigate = useNavigate();
 
