@@ -7,6 +7,7 @@ import Ticket from "../pages/Ticket";
 import RegulerSeatTicket from "../pages/RegulerSeatTicket";
 import VipSeatTicket from "../pages/VipSeatTicket";
 import Match from "../pages/Match";
+import About from "../pages/About";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/seat-vip/:matchId",
         element: <VipSeatTicket />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
     ],
   },

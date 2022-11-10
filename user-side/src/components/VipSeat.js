@@ -10,10 +10,11 @@ import { useMutation, useQuery } from "@apollo/client";
 import { PURCHASE_TICKET } from "../config/mutations";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import ModalPayment from "./PaymentModal";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function VipSeat() {
   const { matchId } = useParams();
-  console.log(matchId, "match id tapi dari VIP seat");
+  // console.log(matchId, "match id tapi dari VIP seat");
   const location = useLocation();
   const { category } = location.state;
   const [transactionId, setTransactionId] = useState();
@@ -52,7 +53,7 @@ function VipSeat() {
     filterVIP = dataBookedSeat?.getTransactionByMatch?.filter((el) => {
       return el.categorySeat === category;
     });
-    console.log(filterVIP, "<<<<<<<<<<<<<");
+    // console.log(filterVIP, "<<<<<<<<<<<<<");
   }
 
   const formatRupiah = (money) => {
@@ -367,7 +368,17 @@ function VipSeat() {
               </div>
             </Card>
             {bookedSeatLoading ? (
-              <h2>Loading ...</h2>
+              <div className="row">
+                <div
+                  className="col-1 mx-auto"
+                  style={{
+                    textAlign: "center",
+                    maxWidth: "6%",
+                  }}
+                >
+                  <FadeLoader color="#36d7b7" />
+                </div>
+              </div>
             ) : (
               <ol>
                 {vipSeats.map((el, i) => {
@@ -430,7 +441,17 @@ function VipSeat() {
       </div>
       <div className="col-6 mx-auto" style={{ marginTop: "2rem" }}>
         {loading ? (
-          <h2>Loading.....</h2>
+          <div className="row">
+            <div
+              className="col-1 mx-auto"
+              style={{
+                textAlign: "center",
+                maxWidth: "6%",
+              }}
+            >
+              <FadeLoader color="#36d7b7" />
+            </div>
+          </div>
         ) : (
           <Card
             body
@@ -474,7 +495,8 @@ function VipSeat() {
                   value={ticketInput.ktp}
                   name="ktp"
                   onChange={handleChange}
-                  placeholder="Enter your KTP"
+                  placeholder="Enter your NIK"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -485,6 +507,7 @@ function VipSeat() {
                   onChange={handleChange}
                   value={ticketInput.email}
                   placeholder="Enter your email"
+                  required
                 />
               </Form.Group>
               <Form.Label>Seats</Form.Label>
@@ -513,8 +536,20 @@ function VipSeat() {
                 })}
               </div>
               <Card className="p-3 mb-3">
-                <h5>Total Item : {selectSeat.length}</h5>
-                <h5>Price : {formatRupiah(selectSeat.length * 200000)}</h5>
+                <div className="row">
+                  <div className="col-4 mx-auto">
+                    <h5>Total Item </h5>
+                  </div>
+                  <div className="col-8 mx-auto">
+                    <h5>: {selectSeat.length}</h5>
+                  </div>
+                  <div className="col-4 mx-auto">
+                    <h5>Price </h5>
+                  </div>
+                  <div className="col-8 mx-auto">
+                    <h5>: {formatRupiah(selectSeat.length * 150000)}</h5>
+                  </div>
+                </div>
               </Card>
               <div
                 style={{
@@ -527,7 +562,7 @@ function VipSeat() {
                 >
                   Back
                 </Button>
-                &nbsp;
+                &nbsp;&nbsp;
                 <Button variant="dark" type="submit">
                   Next
                 </Button>

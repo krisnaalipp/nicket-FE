@@ -49,6 +49,12 @@ function NavBar() {
                 >
                   Match
                 </Nav.Link>
+                <Nav.Link
+                  className={splitLocation[1] === "about" ? "active" : ""}
+                  onClick={() => navigate("/about")}
+                >
+                  About
+                </Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>

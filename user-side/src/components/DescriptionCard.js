@@ -6,6 +6,7 @@ import { ImNewspaper } from "react-icons/im";
 import { RiArrowDropLeftLine, RiArrowDropRightLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { getUpcomingMatch } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function toLocalDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -107,7 +108,16 @@ function DescriptionCard() {
             }}
           >
             {loading ? (
-              <h1 className="text-center">Loading...</h1>
+              <div className="row">
+                <div
+                  className="col-2 mx-auto"
+                  style={{
+                    textAlign: "center",
+                  }}
+                >
+                  <FadeLoader color="#36d7b7" />
+                </div>
+              </div>
             ) : (
               <>
                 <h4>Next Game</h4>

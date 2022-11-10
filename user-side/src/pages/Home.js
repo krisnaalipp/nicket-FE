@@ -7,6 +7,7 @@ import { MdOutlineUpdate } from "react-icons/md";
 import HomeModal from "../components/HomeModal";
 import { useQuery } from "@apollo/client";
 import { readLatestNews } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function Home() {
   const [show, setModalShow] = useState(true);
@@ -44,7 +45,17 @@ function Home() {
             LATEST NEWS
           </h5>
           {loading ? (
-            <h3 className="text-center">Loading ...</h3>
+            <div className="row">
+              <div
+                className="col-1 mx-auto"
+                style={{
+                  textAlign: "center",
+                  maxWidth: "6%",
+                }}
+              >
+                <FadeLoader color="#36d7b7" />
+              </div>
+            </div>
           ) : (
             <div className="row">
               {data.getNewsLimit?.map((el) => (

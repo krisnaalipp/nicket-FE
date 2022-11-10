@@ -3,8 +3,19 @@ import { Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { POST_ORDER, UPDATE_ISPAID } from "../config/mutations";
 import { getBookedSeat, getTransactionDetail } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
+import { TbListDetails } from "react-icons/tb";
+
 export default function ModalPayment(props) {
   const navigate = useNavigate();
+
+  const formatRupiah = (money) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(money);
+  };
 
   const { error, loading, data } = useQuery(getTransactionDetail, {
     variables: {
@@ -81,7 +92,16 @@ export default function ModalPayment(props) {
       centered
     >
       {loading ? (
-        <h2>Loading....</h2>
+        <div className="row">
+          <div
+            className="col-2 mx-auto"
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <FadeLoader color="#36d7b7" />
+          </div>
+        </div>
       ) : (
         <>
           <Modal.Header>
@@ -95,33 +115,73 @@ export default function ModalPayment(props) {
                 }}
               >
                 <div className="col-6 mx-auto" style={{ marginTop: "0.5rem" }}>
-                  <h4>Ticket Detail</h4>
+                  <h4>
+                    <TbListDetails
+                      style={{
+                        marginRight: "0.5rem",
+                        marginBottom: "0.2rem",
+                      }}
+                    />
+                    Ticket Detail
+                  </h4>
                 </div>
               </div>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>KTP : {data?.getTransactionDetail?.ktp}</p>
-            <p>Email : {data?.getTransactionDetail?.email}</p>
-            <p>Category : {data?.getTransactionDetail?.categorySeat}</p>
-
-            <p>
-              Total Price : {data?.getTransactionDetail?.Seats?.length * 150000}
-            </p>
+            <div className="row">
+              <div className="col-3 mx-auto">
+                <p>KTP </p>
+              </div>
+              <div className="col-9 mx-auto">
+                <p>: {data?.getTransactionDetail?.ktp}</p>
+              </div>
+              <div className="col-3 mx-auto">
+                <p>Email </p>
+              </div>
+              <div className="col-9 mx-auto">
+                <p>: {data?.getTransactionDetail?.email}</p>
+              </div>
+              <div className="col-3 mx-auto">
+                <p>Category </p>
+              </div>
+              <div className="col-9 mx-auto">
+                <p>: {data?.getTransactionDetail?.categorySeat}</p>
+              </div>
+              <div className="col-3 mx-auto">
+                <p>Total Price </p>
+              </div>
+              <div className="col-9 mx-auto">
+                <p>
+                  :{" "}
+                  {formatRupiah(
+                    data?.getTransactionDetail?.Seats?.length * 150000
+                  )}
+                </p>
+              </div>
+            </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              onClick={() => {
-                postOrder({
-                  variables: {
-                    postOrderId: props.transactionId,
-                  },
-                });
-              }}
-            >
-              Pay
-            </Button>
-            <Button onClick={closeHandler}>Close</Button>
+            <div className="row" style={{ width: "100%" }}>
+              <div className="col-8 mx-auto" style={{ textAlign: "center" }}>
+                <Button variant="secondary" onClick={closeHandler}>
+                  Close
+                </Button>
+                &nbsp;&nbsp;
+                <Button
+                  variant="dark"
+                  onClick={() => {
+                    postOrder({
+                      variables: {
+                        postOrderId: props.transactionId,
+                      },
+                    });
+                  }}
+                >
+                  Pay
+                </Button>
+              </div>
+            </div>
           </Modal.Footer>
         </>
       )}

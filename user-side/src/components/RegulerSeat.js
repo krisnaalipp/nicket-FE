@@ -10,6 +10,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PURCHASE_TICKET } from "../config/mutations";
 import ModalPayment from "./PaymentModal";
 import { getBookedSeat } from "../config/queries";
+import FadeLoader from "react-spinners/FadeLoader";
 
 function RegulerSeat() {
   const { matchId } = useParams();
@@ -166,7 +167,17 @@ function RegulerSeat() {
               </div>
             </Card>
             {bookedSeatLoading ? (
-              <h2>Loading ....</h2>
+              <div className="row">
+                <div
+                  className="col-1 mx-auto"
+                  style={{
+                    textAlign: "center",
+                    maxWidth: "6%",
+                  }}
+                >
+                  <FadeLoader color="#36d7b7" />
+                </div>
+              </div>
             ) : (
               <ol>
                 {
@@ -239,7 +250,17 @@ function RegulerSeat() {
       </div>
       <div className="col-5 mx-auto">
         {loading ? (
-          <h3>Loading ...</h3>
+          <div className="row">
+            <div
+              className="col-1 mx-auto"
+              style={{
+                textAlign: "center",
+                maxWidth: "6%",
+              }}
+            >
+              <FadeLoader color="#36d7b7" />
+            </div>
+          </div>
         ) : (
           <Card
             body
@@ -283,7 +304,8 @@ function RegulerSeat() {
                   value={ticketInput.ktp}
                   name="ktp"
                   onChange={handleChange}
-                  placeholder="Enter your KTP"
+                  placeholder="Enter your NIK"
+                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -294,6 +316,7 @@ function RegulerSeat() {
                   name="email"
                   onChange={handleChange}
                   placeholder="Enter your email"
+                  required
                 />
               </Form.Group>
               <Form.Label>Seats</Form.Label>
@@ -322,8 +345,20 @@ function RegulerSeat() {
                 })}
               </div>
               <Card className="p-3 mb-3">
-                <h5>Total Item : {selectSeat.length}</h5>
-                <h5>Price : {formatRupiah(selectSeat.length * 150000)}</h5>
+                <div className="row">
+                  <div className="col-4 mx-auto">
+                    <h5>Total Item </h5>
+                  </div>
+                  <div className="col-8 mx-auto">
+                    <h5>: {selectSeat.length}</h5>
+                  </div>
+                  <div className="col-4 mx-auto">
+                    <h5>Price </h5>
+                  </div>
+                  <div className="col-8 mx-auto">
+                    <h5>: {formatRupiah(selectSeat.length * 150000)}</h5>
+                  </div>
+                </div>
               </Card>
               <div
                 style={{
@@ -336,7 +371,7 @@ function RegulerSeat() {
                 >
                   Back
                 </Button>
-                &nbsp;
+                &nbsp;&nbsp;
                 <Button variant="dark" type="submit">
                   Next
                 </Button>
