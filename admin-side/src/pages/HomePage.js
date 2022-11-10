@@ -113,7 +113,7 @@ export default function HomePage() {
               className="mb-2 "
             >
               <Card.Header className="d-flex justify-content-center">
-                Previous Match Total Sales Percentage
+                Total Transactions Statistics
               </Card.Header>
               <Card.Body>
                 <Card.Title>Based on Matches</Card.Title>
@@ -131,7 +131,7 @@ export default function HomePage() {
               className="mb-2"
             >
               <Card.Header className="d-flex justify-content-center">
-                Upcoming Match Total Sales Percentage
+                Amount Tickets Sold Statistics
               </Card.Header>
               <Card.Body>
                 <Card.Title>Based on Matches</Card.Title>
@@ -164,7 +164,7 @@ export default function HomePage() {
           {/* <h1>Sales</h1> */}
           <Card bg="dark" text={"white"} style={{ width: "100%" }}>
             <Card.Header className="d-flex justify-content-center">
-              Next Match Total Sales
+              Upcoming Match Sales Report
             </Card.Header>
             <Card.Body>
               <Card.Title>Seats Remaining</Card.Title>
