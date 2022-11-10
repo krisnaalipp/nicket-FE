@@ -17,11 +17,11 @@ export default function Matches() {
         { query: GET_MATCHES }, // DocumentNode object parsed with gql
       ],
       onCompleted: (data) => {
-        console.log("berhasil edit result", data);
+        // console.log("berhasil edit result", data);
         Swal.fire("Good job!", "You have edited the Result!", "success");
       },
       onError: (error) => {
-        console.log(error);
+        // console.log(error);
         Swal.fire("Error!", "Something is wrong!", "error");
       },
     });

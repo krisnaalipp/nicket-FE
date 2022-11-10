@@ -27,28 +27,28 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Daily Reports",
+      text: "Matches Reports",
     },
   },
 };
 
-const labels = new Array(30).fill("").map((_, i) => i + 1);
+// const labels = new Array(30).fill("").map((_, i) => i + 1);
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Total Daily Sales",
-      data: [
-        400, 200, 400, 500, 600, 700, 800, 400, 200, 400, 500, 600, 700, 800,
-        400, 200, 400, 500, 600, 700, 800, 700, 800, 400, 500, 600, 700, 800,
-        700, 800,
-      ],
-      backgroundColor: "yellow",
-    },
-  ],
-};
+// export const data = {
+//   labels,
+//   datasets: [
+//     {
+//       label: "Total Daily Sales",
+//       data: [
+//         400, 200, 400, 500, 600, 700, 800, 400, 200, 400, 500, 600, 700, 800,
+//         400, 200, 400, 500, 600, 700, 800, 700, 800, 400, 500, 600, 700, 800,
+//         700, 800,
+//       ],
+//       backgroundColor: "yellow",
+//     },
+//   ],
+// };
 
-export default function AnalyticsMonthly() {
-  return <Bar options={options} data={data} />;
+export default function AnalyticsMonthly(prop) {
+  return <Bar options={options} data={prop.data} />;
 }

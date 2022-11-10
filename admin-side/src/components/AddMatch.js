@@ -38,6 +38,15 @@ export default function AddMatch({ show, setShow }) {
     });
   // console.log(data, "=== set data");
 
+  if (addLoading) {
+    return (
+      <RiLoaderLine
+        size={50}
+        style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}
+      />
+    );
+  }
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Form

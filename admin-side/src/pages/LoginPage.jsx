@@ -18,12 +18,12 @@ export default function LoginPage() {
       [e.target.name]: e.target.value,
     });
 
-    console.log(e.target.name, e.target.value, "====dari login page");
+    // console.log(e.target.name, e.target.value, "====dari login page");
   }
 
   const [submitHandler, { data, loading, error }] = useMutation(LOGIN_ADMIN, {
     onCompleted: (data) => {
-      console.log("berhasil login", data);
+      // console.log("berhasil login", data);
       localStorage.setItem("access_token", data.loginAdmin.access_token);
       navigate("/");
     },
