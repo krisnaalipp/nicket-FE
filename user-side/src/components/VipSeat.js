@@ -47,13 +47,11 @@ function VipSeat() {
     },
     fetchPolicy: "no-cache",
   });
-  console.log(dataBookedSeat);
   let filterVIP;
   if (!bookedSeatLoading) {
     filterVIP = dataBookedSeat?.getTransactionByMatch?.filter((el) => {
       return el.categorySeat === category;
     });
-    // console.log(filterVIP, "<<<<<<<<<<<<<");
   }
 
   const formatRupiah = (money) => {
@@ -96,7 +94,6 @@ function VipSeat() {
       },
       onError: (error) => {
         setSeats([]);
-        console.log(error);
       },
     }
   );

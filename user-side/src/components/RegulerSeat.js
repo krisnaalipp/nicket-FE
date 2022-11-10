@@ -32,7 +32,7 @@ function RegulerSeat() {
     data: dataBookedSeat,
   } = useQuery(getBookedSeat, {
     variables: {
-      getTransactionByMatchId: +matchId,
+      getTransactionByMatchId: matchId,
     },
     fetchPolicy: "no-cache",
   });
@@ -42,6 +42,7 @@ function RegulerSeat() {
       return el.categorySeat === category;
     });
   }
+  console.log(filterReguler);
 
   const navigate = useNavigate();
 
@@ -191,13 +192,13 @@ function RegulerSeat() {
                               <>
                                 <li className="seat">
                                   <input
-                                    disabled={filterReguler[0]?.Seats?.find(
-                                      (el) => {
-                                        if (el.seatNumber === elSeat) {
-                                          return true;
-                                        } else {
-                                          return false;
-                                        }
+                                    disabled={filterReguler.find(
+                                      (transaction) => {
+                                        return transaction.Seats?.find(
+                                          (seat) => {
+                                            return seat.seatNumber === elSeat;
+                                          }
+                                        );
                                       }
                                     )}
                                     type="checkbox"
