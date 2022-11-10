@@ -5,9 +5,11 @@ import {
   MdOutlineEventSeat,
   MdOutlineSortByAlpha,
   MdOutlineAttachEmail,
+  MdMarkEmailRead,
 } from "react-icons/md";
 import { SiSamsungpay } from "react-icons/si";
 import Card from "react-bootstrap/Card";
+import { ImLocation, ImPhone } from "react-icons/im";
 import "../custom.css";
 
 function About() {
@@ -17,7 +19,7 @@ function About() {
         style={{
           backgroundImage:
             "url(" +
-            "https://assets.skor.id/crop/0x0:0x0/x/photo/2022/06/02/2358535867.jpeg" +
+            "https://images.unsplash.com/photo-1616514169928-a1e40c6f791c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" +
             ")",
           backgroundPosition: "center",
           backgroundSize: "cover",
@@ -92,14 +94,24 @@ function About() {
                     src="https://cdn.discordapp.com/attachments/1035515386172543087/1038008127443968030/logo.png"
                   />
                 </div>
-                <div className="col-md-8">
+                <div
+                  className="col-md-8"
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    display: "flex",
+                  }}
+                >
                   <div className="card-body">
-                    <p className="card-text">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quae beatae saepe exercitationem impedit at aspernatur
-                      fuga in nisi deserunt perspiciatis facilis assumenda
-                      repellat dolores ducimus numquam, atque accusantium
-                      laudantium harum?
+                    <p className="card-text" style={{ textAlign: "justify" }}>
+                      Eagle F.C is a website that provide information about
+                      football news, fixtures, you can also view the results of
+                      Eagle F.C You can easily and safely buy tickets for Eagle
+                      F.C matches online anywhere anytime. Purchasing tickets
+                      online with a one-person one-seat system is expected to
+                      avoid overload capacity in the stadium. from football by
+                      football and for football because football can bring it
+                      all together.
                     </p>
                   </div>
                 </div>
@@ -115,11 +127,42 @@ function About() {
               }}
             >
               <div className="card-body">
+                <h4 className="text-center">Contact Information</h4>
+                <hr />
                 <p className="card-text">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
-                  beatae saepe exercitationem impedit at aspernatur fuga in nisi
-                  deserunt perspiciatis facilis assumenda repellat dolores
-                  ducimus numquam, atque accusantium laudantium harum?
+                  <ol
+                    style={{
+                      listStyle: "none",
+                    }}
+                  >
+                    <li>
+                      <ImLocation
+                        style={{
+                          marginRight: "0.4rem",
+                          marginBottom: "0.2rem",
+                        }}
+                      />
+                      Jl. Sultan Iskandar Muda, Jakarta Selatan
+                    </li>
+                    <li>
+                      <ImPhone
+                        style={{
+                          marginRight: "0.4rem",
+                          marginBottom: "0.2rem",
+                        }}
+                      />
+                      (021) 8067 5787
+                    </li>
+                    <li>
+                      <MdMarkEmailRead
+                        style={{
+                          marginRight: "0.4rem",
+                          marginBottom: "0.2rem",
+                        }}
+                      />
+                      admnicket8@gmail.com
+                    </li>
+                  </ol>
                 </p>
               </div>
             </div>
