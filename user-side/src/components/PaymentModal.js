@@ -160,10 +160,13 @@ export default function ModalPayment(props) {
               </div>
               <div className="col-9 mx-auto">
                 <p>
-                  :{" "}
-                  {formatRupiah(
-                    data?.getTransactionDetail?.Seats?.length * 150000
-                  )}
+                  {data?.getTransactionDetail?.categorySeat !== "VIP"
+                    ? formatRupiah(
+                        data?.getTransactionDetail?.Seats?.length * 150000
+                      )
+                    : formatRupiah(
+                        data?.getTransactionDetail?.Seats?.length * 200000
+                      )}
                 </p>
               </div>
             </div>
