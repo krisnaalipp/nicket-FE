@@ -19,7 +19,7 @@ export default function AddNews(props) {
       [e.target.name]: e.target.value,
     });
 
-    console.log(e.target.name, e.target.value, "====dari add news");
+    // console.log(e.target.name, e.target.value, "====dari add news");
   }
 
   const [submitHandler, { data, loading, error }] = useMutation(ADD_NEWS, {
@@ -36,6 +36,14 @@ export default function AddNews(props) {
     },
   });
 
+  if (loading) {
+    return (
+      <RiLoaderLine
+        size={50}
+        style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}
+      />
+    );
+  }
   // if (error) return <Alert>Submission error! ${error.message}</Alert>;
 
   return (

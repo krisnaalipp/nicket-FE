@@ -4,7 +4,7 @@ export default function NavBarAdmin() {
   const { collapseSidebar } = useProSidebar();
   return (
     <Navbar style={{ backgroundColor: "#000064" }} variant="dark">
-      <div className="row m-1">
+      <div className="row mx-1">
         <Navbar.Brand>
           <button
             style={{ borderRadius: 5, paddingX: 8 }}

@@ -23,11 +23,11 @@ export default function RegisterAdmin() {
 
   const [submitHandler, { data, loading, error }] = useMutation(REGISTER, {
     onCompleted: (data) => {
-      console.log("berhasil register", data);
+      // console.log("berhasil register", data);
       Swal.fire("Good Job!", "New admin registered!", "success");
     },
     onError: (error) => {
-      console.log(error);
+      // console.log(error);
       Swal.fire("Error!", "Something is wrong!", "error");
     },
   });

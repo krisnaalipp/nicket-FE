@@ -4,47 +4,102 @@ import AnalyticsMonthly from "../components/AnalyticsMonthly";
 import UpcomingMatchChart from "../components/UpcomingMatchChart";
 import SalesChart from "../components/SalesChart";
 import { useQuery } from "@apollo/client";
-import { GET_MATCHES, GET_TRANSACTIONS } from "../config/queries";
-import { useState } from "react";
+import { GET_MATCHES, GET_NEWEST_MATCH } from "../config/queries";
+import { RiLoaderLine } from "react-icons/ri";
 
 export default function HomePage() {
-  const { data: matches, loading: loadingmatch } = useQuery(GET_MATCHES);
-  const labels = new Array(30).fill("").map((_, i) => i + 1);
-  const data2 = {
+  const { data: matches, loading: loadingMatch } = useQuery(GET_MATCHES);
+  const { data: oneMatch, loading: loadingOne } = useQuery(GET_NEWEST_MATCH);
+
+  const matchesName = matches?.getMatch?.map((el) => {
+    return el.opponent;
+  });
+  // console.log(matches, "====");
+
+  const transaction = matches?.getMatch?.map((el) => {
+    return el.Transactions.length;
+  });
+  // console.log(transaction, "=====transaction");
+
+  let totalAmount = matches?.getMatch?.map((el) => {
+    let total = 0;
+    el.Transactions?.forEach((data) => {
+      total += data.amount;
+    });
+    return total;
+  });
+  let totalPrice = matches?.getMatch?.map((el) => {
+    let total = 0;
+    el.Transactions?.forEach((data) => {
+      total += data.ticketPrice * data.amount;
+    });
+    return total;
+  });
+
+  // console.log(matches?.getMatch);
+  // console.log(totalAmount, "=====total aount");
+  // console.log(totalPrice, "=====total price");
+
+  const labels = matchesName;
+  const dataTransactions = {
     labels,
     datasets: [
       {
-        label: "Previous Matches",
-        data: [500, 300, 200, 1000, 400, 600, 700],
+        label: "Transactions per Match",
+        data: transaction,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
   };
-  let past = new Date();
-  let future = new Date();
-  future.setDate(future.getDate() + 30);
-  past.setDate(past.getDate() - 1);
 
-  // console.log(matches, loadingmatch);
-  // if (!loadingmatch) {
-  const getPreviousMatch = matches?.getMatch?.filter((el) => {
-    return el.result !== "Not Started";
-  });
+  const dataAmount = {
+    labels,
+    datasets: [
+      {
+        label: "Total Amount per Match",
+        data: totalAmount,
+        borderColor: "rgb(53, 162, 235)",
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+    ],
+  };
 
-  const getUpcomingMatch = matches?.getMatch?.filter((el) => {
-    return el.result === "Not Started";
-  });
+  const dataPrice = {
+    labels,
+    datasets: [
+      {
+        label: "Total Daily Sales",
+        data: totalPrice,
+        backgroundColor: "yellow",
+      },
+    ],
+  };
 
-  // const { data, loading } = useQuery(GET_TRANSACTIONS, {
-  //   variables: {
-  //     getTransactionByMatchId: getPreviousid,
-  //   },
-  // });
+  const dataAvailableSeats = oneMatch?.getOneMatch?.availableSeats;
+  // console.log(dataAvailableSeats, "===data seats");
 
-  console.log(getPreviousMatch, "===== before");
-  console.log(getUpcomingMatch, "===== after");
-  // }
+  const dataSeats = {
+    labels: ["Sold", "Available"],
+    datasets: [
+      {
+        label: "# of Votes",
+        data: [500 - dataAvailableSeats, dataAvailableSeats],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(255, 206, 86, 0.2)"],
+        borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  if (loadingMatch || loadingOne) {
+    return (
+      <RiLoaderLine
+        size={50}
+        style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}
+      />
+    );
+  }
 
   return (
     <Container className="p-1 m-5">
@@ -61,9 +116,9 @@ export default function HomePage() {
                 Previous Match Total Sales Percentage
               </Card.Header>
               <Card.Body>
-                <Card.Title>January - February</Card.Title>
+                <Card.Title>Based on Matches</Card.Title>
                 {/* <Card.Title>Eagle FC VS Liverpool</Card.Title> */}
-                <ChartPreviousMatch data={data2} />
+                <ChartPreviousMatch data={dataTransactions} />
                 {/* <Card.Text>lorem ipsum dkk (ChartJS)</Card.Text> */}
               </Card.Body>
             </Card>
@@ -79,9 +134,9 @@ export default function HomePage() {
                 Upcoming Match Total Sales Percentage
               </Card.Header>
               <Card.Body>
-                <Card.Title>January - February</Card.Title>
+                <Card.Title>Based on Matches</Card.Title>
                 {/* <Card.Title>EAGLE FC - Watford</Card.Title> */}
-                <UpcomingMatchChart data={getUpcomingMatch} />
+                <UpcomingMatchChart data={dataAmount} />
                 {/* <Card.Text>lorem ipsum dkk (ChartJS)</Card.Text> */}
               </Card.Body>
             </Card>
@@ -96,11 +151,11 @@ export default function HomePage() {
               Total Sales Analytics Data
             </Card.Header>
             <Card.Body>
-              <Card.Title>January - February</Card.Title>
+              <Card.Title>Based on Matches</Card.Title>
               {/* <Card.Title>EAGLE FC - Watford</Card.Title> */}
               {/* <Card.Text>lorem ipsum dkk (ChartJS)</Card.Text> */}
               <div>
-                <AnalyticsMonthly />
+                <AnalyticsMonthly data={dataPrice} />
               </div>
             </Card.Body>
           </Card>
@@ -112,9 +167,9 @@ export default function HomePage() {
               Next Match Total Sales
             </Card.Header>
             <Card.Body>
-              <Card.Title>Nama Team</Card.Title>
+              <Card.Title>Seats Remaining</Card.Title>
               {/* <Card.Title>EAGLE FC - Watford</Card.Title> */}
-              <SalesChart />
+              <SalesChart data={dataSeats} />
               {/* <Card.Text>lorem ipsum dkk (ChartJS)</Card.Text> */}
             </Card.Body>
           </Card>

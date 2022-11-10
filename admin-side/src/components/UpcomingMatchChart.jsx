@@ -29,29 +29,29 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Daily Reports",
+      text: "Matches Reports",
     },
   },
 };
 
-const labels = new Array(30).fill("").map((_, i) => i + 1);
+// const labels = new Array(30).fill("").map((_, i) => i + 1);
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Upcoming Matches",
-      data: [
-        1000, 400, 700, 400, 200, 800, 900, 500, 600, 700, 800, 700, 800, 400,
-        200, 400, 500, 600, 700, 800, 400, 200, 400, 500, 600, 700, 800, 700,
-        800, 400,
-      ],
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
-};
+// export const data = {
+//   labels,
+//   datasets: [
+//     {
+//       label: "Upcoming Matches",
+//       data: [
+//         1000, 400, 700, 400, 200, 800, 900, 500, 600, 700, 800, 700, 800, 400,
+//         200, 400, 500, 600, 700, 800, 400, 200, 400, 500, 600, 700, 800, 700,
+//         800, 400,
+//       ],
+//       borderColor: "rgb(53, 162, 235)",
+//       backgroundColor: "rgba(53, 162, 235, 0.5)",
+//     },
+//   ],
+// };
 
-export default function UpcomingMatchChart() {
-  return <Line options={options} data={data} />;
+export default function UpcomingMatchChart(prop) {
+  return <Line options={options} data={prop.data} />;
 }

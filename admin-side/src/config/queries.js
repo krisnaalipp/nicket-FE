@@ -33,24 +33,46 @@ export const GET_MATCHES = gql`
       result
       startDate
       availableSeats
+      Transactions {
+        id
+        ktp
+        email
+        categorySeat
+        ticketPrice
+        amount
+        MatchId
+        isPaid
+        createdAt
+        Seats {
+          seatNumber
+        }
+      }
     }
   }
 `;
 
-export const GET_TRANSACTIONSBYID = gql`
-  query GetTransaction($getTransactionByMatchId: ID) {
-    getTransactionByMatch(id: $getTransactionByMatchId) {
+export const GET_NEWEST_MATCH = gql`
+  query GetTransaction {
+    getOneMatch {
       id
-      ktp
-      email
-      categorySeat
-      ticketPrice
-      amount
-      MatchId
-      isPaid
-      createdAt
-      Seats {
-        seatNumber
+      opponent
+      opponentLogo
+      result
+      startDate
+      availableSeats
+      Transactions {
+        id
+        ktp
+        email
+        categorySeat
+        ticketPrice
+        amount
+        MatchId
+        isPaid
+        createdAt
+        Seats {
+          seatNumber
+        }
       }
     }
   }
