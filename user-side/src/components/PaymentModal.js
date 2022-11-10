@@ -2,7 +2,11 @@ import { resetApolloContext, useMutation, useQuery } from "@apollo/client";
 import { Modal, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { POST_ORDER, UPDATE_ISPAID } from "../config/mutations";
-import { getBookedSeat, getTransactionDetail } from "../config/queries";
+import {
+  getBookedSeat,
+  getTransactionDetail,
+  getUpcomingMatch,
+} from "../config/queries";
 import FadeLoader from "react-spinners/FadeLoader";
 import { TbListDetails } from "react-icons/tb";
 
@@ -32,7 +36,7 @@ export default function ModalPayment(props) {
     },
   ] = useMutation(UPDATE_ISPAID, {
     onCompleted: () => {
-      // navigate("/");
+      navigate("/");
     },
     refetchQueries: [
       {
@@ -40,6 +44,9 @@ export default function ModalPayment(props) {
         variables: {
           getTransactionByMatchId: data?.getTransactionDetail?.MatchId,
         },
+      },
+      {
+        query: getUpcomingMatch,
       },
     ],
   });
