@@ -544,7 +544,7 @@ function VipSeat() {
                     <h5>Price </h5>
                   </div>
                   <div className="col-8 mx-auto">
-                    <h5>: {formatRupiah(selectSeat.length * 150000)}</h5>
+                    <h5>: {formatRupiah(selectSeat.length * 200000)}</h5>
                   </div>
                 </div>
               </Card>
