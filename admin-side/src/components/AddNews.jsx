@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
+import { RingLoader } from 'react-spinners'
 import { Form, Offcanvas, Button, FloatingLabel, Alert } from "react-bootstrap";
 import { ADD_NEWS } from "../config/mutations";
 import { GET_NEWS } from "../config/queries";
@@ -18,8 +19,6 @@ export default function AddNews(props) {
       ...item,
       [e.target.name]: e.target.value,
     });
-
-    // console.log(e.target.name, e.target.value, "====dari add news");
   }
 
   const [submitHandler, { data, loading, error }] = useMutation(ADD_NEWS, {
@@ -27,24 +26,21 @@ export default function AddNews(props) {
       { query: GET_NEWS }, // DocumentNode object parsed with gql
     ],
     onCompleted: (data) => {
-      // console.log("berhasil add news", data);
       Swal.fire("Good job!", "New news added!", "success");
     },
     onError: (error) => {
-      // console.log(error, "===from error ad news");
       Swal.fire("Error!", "Something is wrong!", "error");
     },
   });
 
   if (loading) {
     return (
-      <RiLoaderLine
+      <RingLoader
         size={50}
         style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}
       />
     );
   }
-  // if (error) return <Alert>Submission error! ${error.message}</Alert>;
 
   return (
     <Offcanvas {...props}>
@@ -55,8 +51,6 @@ export default function AddNews(props) {
         <Form
           onSubmit={(e) => {
             e.preventDefault();
-            // console.log("Masuk submit button");
-            // console.log(item, "++++");
             submitHandler({
               variables: {
                 inputNews: item,
